@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Stack Map"
+AuthUserFile /etc/httpd/conf/htpasswd
+Require valid-user
