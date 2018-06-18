@@ -116,7 +116,7 @@ sqlConnect();
 
 $location_id = getCurrentLocationID();
 
-/*  Note that the call numbers are run through standardize(), which is in standardize.php to
+/*  Note that the call numbers are run through standardize(), which is in ../includes/standardize.php to
     put the call numbers into searchable format.  See that file for more details. */
 
 $query = "INSERT INTO `stacks_$location_id` ( `beginning_call_number` , `ending_call_number` , `range_number`, `std_beg`, `std_end` )

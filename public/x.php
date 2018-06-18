@@ -15,7 +15,7 @@
     The database is updated, then the results are queried and printed to
 */
 include('../includes/sqlConnect.php');
-include 'standardize.php';
+include '../includes/standardize.php';
 
 $xCoord = $_POST['x'];
 $yCoord = $_POST['y'];

@@ -8,7 +8,7 @@
 
 	Delete the section 'assign map coordinates' under section 'maps', and integrate it into the 'mapit' function under 'view/edit ranges'.
 	now, you won't have to type in the range manually, just click on the coordinate where you want to assign. (June 07)
-	Redesigned the whole call number searching algorithm and recode standardize.php.
+	Redesigned the whole call number searching algorithm and recode ../includes/standardize.php.
 	Fixes some problems such as call no with decimals, and call no ending with long numbers not working properly. (June 04 07)
 
     index.php contains the main interface for the stack system administration.  The file prints the
@@ -30,10 +30,10 @@ include("locations.php");
 include("stacks.php");
 include("utilities.php");
 
-/*  standardize.php contains the algorithm for conversion of the user-specified call number to a
+/*  ../includes/standardize.php contains the algorithm for conversion of the user-specified call number to a
     number more suitable for an alphabetical database range search. */
 
-include("../standardize.php");
+include("../../includes/standardize.php");
 
 /*  Section is a broad categorization that can include maps, locations, icons, stacks, etc.
     This variable should always be defined for the purposes of the javascript menu knowing

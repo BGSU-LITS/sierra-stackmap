@@ -14,10 +14,10 @@
 
 include('../includes/sqlConnect.php');
 
-/*  standardize.php contains the algorithm for conversion of the user-specified call number to a
+/*  ../includes/standardize.php contains the algorithm for conversion of the user-specified call number to a
     number more suitable for an alphabetical database range search. */
 
-include("standardize.php");
+include("../includes/standardize.php");
 
 /*  This functionality may eventually be removed -- for now it's there to reassure the user that the
     correct number was queried. */
