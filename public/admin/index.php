@@ -18,7 +18,7 @@
 
 /*  Utility file containing the sqlConnect function and login information for database connections. */
 
-include("../connect.php");
+include('../../includes/sqlConnect.php');
 
 /*  The following five include files are all very similar -- they contain the functions for each
     main section of the stack administration.  Each section corresponds to a set of functions in

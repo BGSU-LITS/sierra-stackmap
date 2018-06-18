@@ -1,6 +1,6 @@
 <?php
 include 'standardize.php';
-include 'connect.php';
+include('../includes/sqlConnect.php');
 
 ?>
 
@@ -36,15 +36,15 @@ if (isset($_GET['call']))
 
     // DEBUG
     echo "After process: " . process($call) . "<br />";
-    
+
     echo "Total parts: " . count_parts($call) . "<br />";
-    
+
     $stan = ($_GET['call_option'] == 'begin') ? standardize($call) : standardize($call, true);
-	
+
 	echo "After standardized: " . $stan . "<br>";
 
 	sqlConnect();
-	$sql = mysql_query("SELECT * FROM `stacks_1` WHERE 
+	$sql = mysql_query("SELECT * FROM `stacks_1` WHERE
 	std_beg <= \"$stan\" AND std_end >= \"$stan\"");
 
 	while ($row = mysql_fetch_array($sql))

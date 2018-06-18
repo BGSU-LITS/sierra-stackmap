@@ -1,11 +1,11 @@
 <?php
 /*  coor.php
     Last update: 4/23/07
-    
+
     The purpose of this file is to display the current map and allow the user to assign coordinates
     to a stack/library map.
 */
-include("connect.php");
+include('../includes/sqlConnect.php');
 
 $link = sqlConnect();
 
@@ -16,7 +16,7 @@ if (isset($_GET['location_id']))
 {
 	$set_mode = "location";
 	$location_id = $_GET['location_id'];
-	
+
 	if (isset($_GET['error']))
 		die("Some ranges are already assigned to this location.<br />Please delete all ranges first if you want to assign this location to this map.");
 
@@ -37,14 +37,14 @@ $result = mysql_query("SELECT mapid, location FROM maps WHERE location_id = ".$l
 $row = mysql_fetch_array($result);
 $mapid = $row['mapid'];
 $location = $row['location'];
-  
+
 $sql = mysql_query("SELECT filename FROM mapimgs WHERE mapid = ".$mapid);
 if($row = mysql_fetch_array($sql))
   $mapfile = $row['filename'];
 else
   $mapfile ="";
 
-  
+
 if ($set_mode == "location")
 {
 $instructions = "<b>You've selected location: $location.</b><br>
@@ -54,7 +54,7 @@ $instructions = "<b>You've selected location: $location.</b><br>
 else if ($set_mode == "range")
 {
 $instructions = "<b>You've selected range no: $range.</b><br>
-<p style='color:red; font-weight:bold'> Please click on the map location where you would like that range number to be assigned to.  
+<p style='color:red; font-weight:bold'> Please click on the map location where you would like that range number to be assigned to.
 For example, to assign range 1 to a section on the map, simply click in the middle of range 1 on the map below.</p>";
 
 }

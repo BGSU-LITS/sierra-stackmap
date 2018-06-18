@@ -4,7 +4,7 @@
     Last modified by: Woon (woonkhang@gmail.com)
 
     Changes: change the sql query so that it prints the stack chart ORDERED by range_number
-    
+
     stackchart.php prints a complete listing of all stacks and corresponding call numbers for
     the current map.  This utility is useful to librarians who may want to display a complete
     list of the stacks for reference on the outside of the stack shelves.  The format was modeled
@@ -13,7 +13,7 @@
 
 /*  Utility file containing the sqlConnect function and login information for database connections. */
 
-include("../connect.php");
+include('../../includes/sqlConnect.php');
 
 sqlConnect();
 
@@ -36,7 +36,7 @@ else
   $current_location ="";
 
 $sql = mysql_query("SELECT * FROM stacks_$current_location ORDER BY range_number");
-return $sql;    
+return $sql;
 }
 
 
@@ -69,12 +69,12 @@ while($row = mysql_fetch_array($query_results))
         echo "<table border=\"1\" style=\"float: left; width: 45%; margin-left: 5%; font-size: 70%\">\n";
         echo "<tr><td><b>Beginning Call #</b></td> <td><b>Ending Call #</b></td> <td><b>Range #</b></td> </tr>\n";
         }
-      
+
       $beg_callno = $row['beginning_call_number'];
       $end_callno = $row['ending_call_number'];
       $range_no = $row['range_number'];
-      
-      echo "<tr>\n";  
+
+      echo "<tr>\n";
       echo "<td>".$beg_callno."</td><td>".$end_callno."</td><td><b>".$range_no."</b></td>";
       echo "</tr>\n";
       $record_number++;

@@ -3,7 +3,7 @@
     Last update: 5/23/07
     Last modified by: Woon (woonkhang@gmail.com)
     Changes: Change sql statement so that it now prints the stacks ordered by range number
-    
+
     results.php is called by the form in printstacks.php.  It prints out a chart of call numbers
     and their corresponding stack sections.
 */
@@ -11,7 +11,7 @@
 
 /*  Utility file containing the sqlConnect function and login information for database connections. */
 
-include("../connect.php");
+include('../../includes/sqlConnect.php');
 
 $range_beg = $_POST['callbeg'];
 $range_end = $_POST['callend'];
@@ -63,7 +63,7 @@ else
 $sql = mysql_query("SELECT * FROM stacks_$current_location WHERE
 range_number >= \"$range_beg\" AND range_number <= \"$range_end\"
 ORDER BY range_number");
-return $sql;  
+return $sql;
 }
 
 /*  Given the partial stack chart that it is passed, this function prints out a table
@@ -86,12 +86,12 @@ while($row = mysql_fetch_array($query_results))
         //echo "<table border=\"1\" style=\"float: left; width: 45%; margin-left: 5%; font-size: 70%\">\n";
         //echo "<tr><td><b>Beginning Call #</b></td> <td><b>Ending Call #</b></td> <td><b>Range #</b></td> </tr>\n";
         //} end if regarding $half
-      
+
       $beg_callno = $row['beginning_call_number'];
       $end_callno = $row['ending_call_number'];
       $range_no = $row['range_number'];
-      
-      echo "<tr>\n";  
+
+      echo "<tr>\n";
       echo "<td><b>".$range_no."</b></td><td>".$beg_callno."</td><td>".$end_callno."</td>";
       echo "</tr>\n";
       $record_number++;
