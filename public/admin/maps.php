@@ -89,10 +89,10 @@ function assignCoords(){
 		return errorNoMapSelected();
 	}
 	$dynamic = '<script type="text/javascript">';
-	$dynamic .= 'window.open("../coor.php")';
+	$dynamic .= 'window.open("coor.php")';
 	$dynamic .= '</script>';
 	return $dynamic;
-header("Location: ../coor.php");
+header("Location: coor.php");
 
 }
 */

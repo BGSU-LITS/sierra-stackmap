@@ -50,7 +50,7 @@ function stackList()
 		$dynamicText .= "<tr style=\"background:#$color;\">
 		<td>$number</td><td>$begin</td>
 		<td>$end</td>
-		<td><a onclick=\"window.open('../coor.php?range=".$number."')\" href=\"#\"><img border=\"0\" src=\"mapit.gif\" title=\"MapIt!\" /></a></td>
+		<td><a onclick=\"window.open('coor.php?range=".$number."')\" href=\"#\"><img border=\"0\" src=\"mapit.gif\" title=\"MapIt!\" /></a></td>
 		<td><a href=\"index.php?section=stacks&mode=edit&i=$number\"><img border=\"0\" src=\"edit.png\" title=\"edit\"></a></td>
 		<td><a href=\"index.php?section=stacks&mode=delete&i=$number\"><img border=\"0\"src=\"delete.png\" title=\"delete\"></a></td>
 		</tr>";

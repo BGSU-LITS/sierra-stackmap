@@ -95,8 +95,8 @@ function printLocations()
 		else
 		{
 			$dynamicText .= validateLocation($location_id) ? 
-			"<td><a onclick=\"window.open('../coor.php?location_id=$location_id')\" href=\"#\"><img border=\"0\" src=\"mapit.gif\" title=\"MapIt!\" /></a></td>" :
-			"<td><a onclick=\"window.open('../coor.php?location_id=$location_id&error=1')\" href=\"#\"><img border=\"0\" src=\"mapitgrey.jpg\" title=\"Some ranges are already assigned to this location. Please delete all ranges first if you want to assign this location to this map.\" /></a></td>";
+			"<td><a onclick=\"window.open('coor.php?location_id=$location_id')\" href=\"#\"><img border=\"0\" src=\"mapit.gif\" title=\"MapIt!\" /></a></td>" :
+			"<td><a onclick=\"window.open('coor.php?location_id=$location_id&error=1')\" href=\"#\"><img border=\"0\" src=\"mapitgrey.jpg\" title=\"Some ranges are already assigned to this location. Please delete all ranges first if you want to assign this location to this map.\" /></a></td>";
 		}
 		$dynamicText .= "<td><a href=\"index.php?section=locations&mode=edit&i=$location_id\"><img border=\"0\" src=\"edit.png\"></a></td>
 		<td><a href=\"index.php?section=locations&mode=delete&i=$location_id\"><img border=\"0\"src=\"delete.png\"></a></td></tr>";

@@ -14,8 +14,8 @@
     The purpose of this file is to process the information from the user's mapping input.
     The database is updated, then the results are queried and printed to
 */
-include('../includes/sqlConnect.php');
-include '../includes/standardize.php';
+include('../../includes/sqlConnect.php');
+include '../../includes/standardize.php';
 
 $xCoord = $_POST['x'];
 $yCoord = $_POST['y'];
@@ -131,11 +131,11 @@ END;
 	echo "<a href='javascript:window.close()'>Close Window</a>";
 	echo "<br /><br />";
 
-  echo "<div style=\"position:absolute; \"> <img src=\"./maps/$mapfile\" alt=\"Library stack map\" style=\"\" />\n";
+  echo "<div style=\"position:absolute; \"> <img src=\"../maps/$mapfile\" alt=\"Library stack map\" style=\"\" />\n";
 
   /* Star placement for the computer screen */
 
-  echo "<img class='noprint' src=\"./icons/$iconfile\" alt=\"Map marker\" />";
+  echo "<img class='noprint' src=\"../icons/$iconfile\" alt=\"Map marker\" />";
   echo "</div>\n";
 
 

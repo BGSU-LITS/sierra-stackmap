@@ -5,7 +5,7 @@
     The purpose of this file is to display the current map and allow the user to assign coordinates
     to a stack/library map.
 */
-include('../includes/sqlConnect.php');
+include('../../includes/sqlConnect.php');
 
 $link = sqlConnect();
 
@@ -79,7 +79,7 @@ END;
 
 /* Print the dynamically retrieved map file */
 
-echo "<td><input type=\"image\" src=\"./maps/".$mapfile."\" value=\"Submit\" alt=\"Submit\"></td>";
+echo "<td><input type=\"image\" src=\"../maps/".$mapfile."\" value=\"Submit\" alt=\"Submit\"></td>";
 
 if ($set_mode == "location")
 {

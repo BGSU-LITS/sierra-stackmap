@@ -1,6 +1,6 @@
 <?php
-include '../includes/standardize.php';
-include('../includes/sqlConnect.php');
+include '../../includes/standardize.php';
+include('../../includes/sqlConnect.php');
 
 ?>
 
