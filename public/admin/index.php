@@ -154,6 +154,8 @@ switch ($section) {
             $dynamic = printPartialStacks();
         } elseif ($mode == 'searchstacks') {
             $dynamic = searchStacks();
+        } elseif ($mode == 'teststandard') {
+            $dynamic = testStandard();
         } else {
             $dynamic = '';
         }
@@ -564,6 +566,7 @@ function changeOpenmenu(id) {
     <li><a href="index.php?section=utilities&mode=printall">Print All Stacks</a></li>
     <li><a href="index.php?section=utilities&mode=printpartial">Print Partial Chart</a></li>
     <li><a href="index.php?section=utilities&mode=searchstacks">Test Stack Map</a></li>
+    <li><a href="index.php?section=utilities&mode=teststandard">Test Standardization</a></li>
     </ul>
     </li>
 

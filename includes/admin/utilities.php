@@ -31,7 +31,7 @@ function printPartialStacks()
     $text = <<<END
 <p>Use this form to print out only a range of stack call numbers. You can print
     out the chart that it generates to put on the end of the stacks.</p>
-<p>Enter your desired <b>range number</b> of stacks below:</p>
+<p>Enter your desired <strong>range number</strong> of stacks below:</p>
 
 <form action="results.php" method="post">
 From:
@@ -74,11 +74,73 @@ function popup()
 </head>
 <body>
 <form action="../stacksearch.php" method="GET" target="mapit" onsubmit="return popup()">
-<P>Enter call number:<br>
-<input type="text" name="callnumber">
-<input type="submit">
+<p><label for="callnumber">Enter call number:</label>
+<input type="text" id="callnumber" name="callnumber">
+<input type="submit"></p>
 </form>
 END;
+
+    return $text;
+}
+
+// Tests standardization of a call number.
+function testStandard()
+{
+    $text = '<form action="index.php" method="GET">';
+    $text .= '<input type="hidden" name="section" value="utilities">';
+    $text .= '<input type="hidden" name="mode" value="teststandard">';
+
+    $text .= '<p><label for="begin">Range option:</label>' . PHP_EOL;
+    $text .= '<label for="begin">';
+    $text .= '<input type="radio" name="call_option" id="begin" value="begin"';
+    $text .= isset($_GET['call_option']) && $_GET['call_option'] == 'end'
+        ? '>' : ' checked>';
+    $text .= ' Begin</label>';
+
+    $text .= '<label for="end">';
+    $text .= '<input type="radio" name="call_option" id="end" value="end"';
+    $text .= isset($_GET['call_option']) && $_GET['call_option'] == 'end'
+        ? ' checked>' : '>';
+    $text .= ' End</label>';
+    $text .= '</p>';
+
+    $text .= '<p><label for="call">Enter call number:</label>' . PHP_EOL;
+    $text .= '<input type="text" id="call" name="call" value=';
+    $text .= htmlspecialchars(isset($_GET['call']) ? $_GET['call'] : '') . '>';
+
+    $text .= PHP_EOL . '<input type="submit"></p>';
+    $text .= '</form>';
+
+    if (isset($_GET['call'])) {
+        $call = $_GET['call'];
+
+        $text .= '<p>The original call no is: ';
+        $text .= htmlspecialchars($call) . '<br>';
+
+        // DEBUG
+        $text .= 'After processed: ';
+        $text .= htmlspecialchars(process($call)) . '<br>';
+
+        $text .= 'Total parts: ';
+        $text .= htmlspecialchars(count_parts($call)) . '<br>';
+
+        $stan = standardize($call, $_GET['call_option'] == 'begin');
+
+        $text .= 'After standardized: ';
+        $text .= htmlspecialchars($stan) . '<br>';
+
+        $sql = mysql_query(sprintf(
+            'SELECT * FROM `stacks_1`' .
+            ' WHERE std_beg <= "%s" AND std_end >= "%s"',
+            mysql_real_escape_string($stan),
+            mysql_real_escape_string($stan)
+        ));
+
+        while ($row = mysql_fetch_array($sql)) {
+            $text .= 'Found in stack: ';
+            $text .= htmlspecialchars($row['range_number']) . '<br>';
+        }
+    }
 
     return $text;
 }
