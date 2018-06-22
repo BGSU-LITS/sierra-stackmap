@@ -1,18 +1,14 @@
 <?php
 /*  stackchart.php
-    Last update: 5/23/07
-    Last modified by: Woon (woonkhang@gmail.com)
 
-    Changes: change the sql query so that it prints the stack chart ORDERED by range_number
-
-    stackchart.php prints a complete listing of all stacks and corresponding call numbers for
-    the current map.  This utility is useful to librarians who may want to display a complete
-    list of the stacks for reference on the outside of the stack shelves.  The format was modeled
-    after the current BGSU stack displays.
+    Prints a complete listing of all stacks and corresponding call numbers for
+    the current map. This utility is useful to librarians who may want to
+    display a complete list of the stacks for reference on the outside of the
+    stack shelves. The format was modeled after the current BGSU stack displays.
 */
 
-/*  Utility file containing the sqlConnect function and login information for database connections. */
-
+// Utility file containing the sqlConnect function and login information for
+// database connections.
 include('../../includes/sqlConnect.php');
 
 sqlConnect();
@@ -23,68 +19,78 @@ print_date();
 
 print_table($query_results);
 
+// Grabs and returns a list of all stacks
+function get_chart()
+{
+    $sql = mysql_query('SELECT location_id FROM current');
 
+    $current_location = '';
 
-/*  Grabs and returns a list of all stacks */
+    if ($row = mysql_fetch_array($sql)) {
+        $current_location = $row['location_id'];
+    }
 
+    $sql = mysql_query(sprintf(
+        'SELECT * FROM stacks_%s ORDER BY range_number',
+        mysql_real_escape_string($current_location)
+    ));
 
-function get_chart(){
-$sql = mysql_query("SELECT location_id FROM current");
-if($row = mysql_fetch_array($sql))
-  $current_location = $row['location_id'];
-else
-  $current_location ="";
-
-$sql = mysql_query("SELECT * FROM stacks_$current_location ORDER BY range_number");
-return $sql;
+    return $sql;
 }
 
-
-/*  Add a timestamp so users know how recently the list was generated */
-
-function print_date(){
-echo "<div style=\"/*float: right;*/ font-size: 70%;\"> Updated: ".date("m/d/y")."</div><br />\n";
+// Add a timestamp so users know how recently the list was generated
+function print_date()
+{
+    echo '<div style="font-size: 70%;">Updated: ';
+    echo date('m/d/y') . '</div><br />';
 }
 
+// Prints and formats the list of stack ranges
+function print_table($query_results)
+{
+    $record_number = 0;
+    $half = ceil(mysql_num_rows($query_results) / 2);
 
+    echo <<<END
+<div style="font-family: verdana,helvetica,arial,sans-serif">
+<table border="1" style="float:left;width:45%;font-size:70%">
+<tr>
+<th align="left">Beginning Call #</th>
+<th align="left">Ending Call #</th>
+<th align="left">Range #</th>
+</tr>
+END;
 
-/* Prints and formats the list of stack ranges */
+    // For each stack record found...
+    while ($row = mysql_fetch_array($query_results)) {
+        if ($record_number == $half) {
+            echo <<<END
+</table>
+<table border="1" style="float:left;width:45%;margin-left:5%;font-size:70%">
+<tr>
+<th align="left">Beginning Call #</th>
+<th align="left">Ending Call #</th>
+<th align="left">Range #</th>
+</tr>
 
-function print_table($query_results){
-
-
-$record_number = 0;
-$half = mysql_num_rows($query_results) / 2;
-
-echo "<div style=\"font-family: verdana,helvetica,arial,sans-serif\">\n";
-echo "<table border=\"1\" style=\"float: left; width: 45%; font-size: 70%\">\n";
-echo "<tr><td><b>Beginning Call #</b></td> <td><b>Ending Call #</b></td> <td><b>Range #</b></td> </tr>\n";
-
-/* For each stack record found... */
-
-while($row = mysql_fetch_array($query_results))
-      {
-      if($record_number == $half){
-        echo "</table>\n";
-        echo "<table border=\"1\" style=\"float: left; width: 45%; margin-left: 5%; font-size: 70%\">\n";
-        echo "<tr><td><b>Beginning Call #</b></td> <td><b>Ending Call #</b></td> <td><b>Range #</b></td> </tr>\n";
+END;
         }
 
-      $beg_callno = $row['beginning_call_number'];
-      $end_callno = $row['ending_call_number'];
-      $range_no = $row['range_number'];
+        $beg_callno = $row['beginning_call_number'];
+        $end_callno = $row['ending_call_number'];
+        $range_no = $row['range_number'];
 
-      echo "<tr>\n";
-      echo "<td>".$beg_callno."</td><td>".$end_callno."</td><td><b>".$range_no."</b></td>";
-      echo "</tr>\n";
-      $record_number++;
-      }
+        echo '<tr>';
+        echo '<td>' . htmlspecialchars($beg_callno) . '</td>';
+        echo '<td>' . htmlspecialchars($end_callno) . '</td>';
+        echo '<td><strong>' . htmlspecialchars($range_no) . '</strong></td>';
+        echo '</tr>';
 
-echo "</table>\n";
-echo "</div>\n";
+        $record_number++;
+    }
+
+    echo <<<END
+</table>
+</div>
+END;
 }
-
-
-
-
-?>
