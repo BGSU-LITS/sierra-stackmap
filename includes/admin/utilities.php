@@ -129,6 +129,8 @@ function testStandard()
         $text .= 'After standardized: ';
         $text .= htmlspecialchars($stan) . '<br>';
 
+        sqlConnect();
+
         $sql = mysql_query(sprintf(
             'SELECT * FROM `stacks_1`' .
             ' WHERE std_beg <= "%s" AND std_end >= "%s"',
