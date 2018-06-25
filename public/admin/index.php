@@ -357,8 +357,11 @@ function processDelete($type)
 
             // Remove map from file server
             $filename = $d['filename'];
-            $path = '../maps/' . $filename;
-            unlink($path);
+
+            if (!empty($filename)) {
+                $path = '../maps/' . $filename;
+                unlink($path);
+            }
 
             $dynamic = '<p>Map has been successfully deleted.</p>';
         } elseif ($type == 'icons') {
