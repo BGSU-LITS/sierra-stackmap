@@ -67,9 +67,8 @@ function get_chart($range_beg, $range_end)
     return $sql;
 }
 
-/*  Given the partial stack chart that it is passed, this function prints out a table
-    for display on the outside of the library stacks. */
-
+// Given the partial stack chart that it is passed, this function prints out a
+// table for display on the outside of the library stacks.
 function print_table($query_results)
 {
     echo <<<END
