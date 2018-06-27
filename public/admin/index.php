@@ -586,7 +586,7 @@ function changeOpenmenu(id) {
 </head>
 <body>
 <div id="header">
-    <a href="index.php"><img id="logo" src="header.jpg" border="0"
+    <a href="index.php"><img id="logo" src="img/header.jpg" border="0"
         alt="Interactive Stack Map"></a>
 </div>
 <div id="container">

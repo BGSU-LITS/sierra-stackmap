@@ -117,14 +117,14 @@ function printLocations()
             $dynamicText .= '
                 <td><a href="#" onclick="window.open(\'coor.php?location_id=' .
                         htmlspecialchars($location_id) . '\')">
-                    <img border="0" src="mapit.gif" title="Map It!">
+                    <img border="0" src="img/mapit.gif" title="Map It!">
                     </a></td>
             ';
         } else {
             $dynamicText .= '
                 <td><a href="#" onclick="window.open(\'coor.php?location_id=' .
                         htmlspecialchars($location_id) . '&amp;error=1\')">
-                    <img border="0" src="mapitgrey.jpg" title="Map It!"
+                    <img border="0" src="img/mapitgrey.jpg" title="Map It!"
                         title="Some ranges are already assigned to this' .
                             ' location. Please delete all ranges first if' .
                             ' you want to assign this location to this map.' .
@@ -136,10 +136,10 @@ function printLocations()
         $dynamicText .= '
             <td><a href="index.php?section=locations&amp;mode=edit&amp;i=' .
                     htmlspecialchars($location_id) . '">
-                <img border="0" src="edit.png" alt="Edit"></a></td>
+                <img border="0" src="img/edit.png" alt="Edit"></a></td>
             <td><a href="index.php?section=locations&amp;mode=delete&amp;i=' .
                     htmlspecialchars($location_id) . '">
-                <img border="0" src="delete.png" alt="Delete"></a></td>
+                <img border="0" src="img/delete.png" alt="Delete"></a></td>
             </tr>
         ';
 

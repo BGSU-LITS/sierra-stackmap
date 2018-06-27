@@ -55,7 +55,7 @@ function mapList()
                 View</a></td>
             <td><a href="index.php?section=maps&amp;mode=delete&amp;i=' .
                 htmlspecialchars($mapid) . '">
-                <img border="0" src="delete.png"></a></td>
+                <img border="0" src="img/delete.png"></a></td>
             </tr>
         ';
 

@@ -57,7 +57,7 @@ function iconList()
             <td><img src="../icons/' . htmlspecialchars($filename) . '"></td>
             <td><a href="index.php?section=icons&amp;mode=delete&amp;i=' .
                     htmlspecialchars($icoid) . '">
-                <img border="0" src="delete.png"></a></td>
+                <img border="0" src="img/delete.png"></a></td>
             </tr>
         ';
 

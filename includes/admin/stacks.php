@@ -62,13 +62,13 @@ function stackList()
             <td>'. htmlspecialchars($end) . '</td>
             <td><a onclick="window.open(\'coor.php?range=' .
                     htmlspecialchars($number) . '\')" href="#">
-                <img border="0" src="mapit.gif" title="Map It!"></a></td>
+                <img border="0" src="img/mapit.gif" title="Map It!"></a></td>
             <td><a href="index.php?section=stacks&amp;mode=edit&amp;i=' .
                     htmlspecialchars($number) . '">
-                <img border="0" src="edit.png" title="Edit"></a></td>
+                <img border="0" src="img/edit.png" title="Edit"></a></td>
             <td><a href="index.php?section=stacks&amp;mode=delete&amp;i=' .
                     htmlspecialchars($number) . '">
-                <img border="0" src="delete.png" title="Delete"></a></td>
+                <img border="0" src="img/delete.png" title="Delete"></a></td>
             </tr>
         ';
 

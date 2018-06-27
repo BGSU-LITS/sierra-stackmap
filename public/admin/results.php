@@ -24,7 +24,7 @@ if (isset($_POST['callend'])) {
 // Place left arrow
 echo '
     <div style="float: left; width: 25%">
-    <img src="arrowleft.gif">
+    <img src="img/arrowleft.gif">
     </div>
 ';
 
@@ -40,7 +40,7 @@ echo '
 // Place right arrow
 echo '
     <div style="float: left; width: 25%">
-    <img src="arrowright.gif">
+    <img src="img/arrowright.gif">
     </div>
 ';
 
