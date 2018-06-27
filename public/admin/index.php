@@ -447,10 +447,10 @@ th { background:#fee3ad;color:#000000;font-weight:normal; padding-left:5px;paddi
 form { width:75%;margin-left:auto;margin-right:auto; }
 form#currentMap {margin-left:8px;}
 input {	color:#781351;background:#fee3ad;border:1px solid #781351;text-align:left; }
-fieldset { border: 1px solid #781351;width: 100%;height:125px; }
+fieldset { border: 1px solid #781351;width: 100%;font:0.9em/1.7 Tahoma, Verdana, sans-serif; padding-left:20px; }
 legend { font:0.9em/1.7 Tahoma, Verdana, sans-serif;color: #000000;background: #ffa20c;border: 1px solid #781351;padding: 2px 6px }
-label { font:0.9em/1.7 Tahoma, Verdana, sans-serif; padding-left:20px; width: 150px;}
-#submit { position:relative; left: +20px; color: #000000;background: #ffa20c;border:1px solid #781351;text-align:left; }
+label { height:125px; width: 150px;}
+input[type=submit] { color: #000000;background: #ffa20c;border:1px solid #781351;text-align:left; }
 
 a{display:block;text-decoration:none;width:100%;line-height:30px;}
 ul{list-style-type:none;text-align:center;}

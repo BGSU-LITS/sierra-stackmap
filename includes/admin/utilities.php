@@ -86,30 +86,29 @@ END;
 // Tests standardization of a call number.
 function testStandard()
 {
-    $text = '<form action="index.php" method="GET">';
-    $text .= '<input type="hidden" name="section" value="utilities">';
-    $text .= '<input type="hidden" name="mode" value="teststandard">';
+    $text = '
+        <form action="index.php" method="GET">
+        <input type="hidden" name="section" value="utilities">
+        <input type="hidden" name="mode" value="teststandard">
+        <p><label for="begin">Range option:</label>
+        <label for="begin">
+            <input type="radio" name="call_option" id="begin" value="begin"' .
+                (isset($_GET['call_option']) && $_GET['call_option'] == 'end'
+                    ? '>' : ' checked>') . ' Begin
+        </label>
+        <label for="end">
+            <input type="radio" name="call_option" id="end" value="end"' .
+                (isset($_GET['call_option']) && $_GET['call_option'] == 'end'
+                    ? ' checked>' : '>') . ' End
+        </label>
+        </p>
 
-    $text .= '<p><label for="begin">Range option:</label>' . PHP_EOL;
-    $text .= '<label for="begin">';
-    $text .= '<input type="radio" name="call_option" id="begin" value="begin"';
-    $text .= isset($_GET['call_option']) && $_GET['call_option'] == 'end'
-        ? '>' : ' checked>';
-    $text .= ' Begin</label>';
-
-    $text .= '<label for="end">';
-    $text .= '<input type="radio" name="call_option" id="end" value="end"';
-    $text .= isset($_GET['call_option']) && $_GET['call_option'] == 'end'
-        ? ' checked>' : '>';
-    $text .= ' End</label>';
-    $text .= '</p>';
-
-    $text .= '<p><label for="call">Enter call number:</label>' . PHP_EOL;
-    $text .= '<input type="text" id="call" name="call" value=';
-    $text .= htmlspecialchars(isset($_GET['call']) ? $_GET['call'] : '') . '>';
-
-    $text .= PHP_EOL . '<input type="submit"></p>';
-    $text .= '</form>';
+        <p><label for="call">Enter call number:</label>
+        <input type="text" id="call" name="call" value=' .
+            htmlspecialchars(isset($_GET['call']) ? $_GET['call'] : '') . '>
+        <input type="submit"></p>
+        </form>
+    ';
 
     if (isset($_GET['call'])) {
         $call = $_GET['call'];

@@ -101,7 +101,7 @@ echo '
 if ($set_mode == 'location') {
     echo '
         <input type="hidden" name="location_id" value="' .
-            htmlspecialchars($location_id) . '/>
+            htmlspecialchars($location_id) . '" />
     ';
 } elseif ($set_mode == 'range') {
     echo '

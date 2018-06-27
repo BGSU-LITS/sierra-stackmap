@@ -92,18 +92,15 @@ function addRange()
         <form action="index.php?section=stacks&mode=processaddrange"
             method="get">
         <fieldset><legend>Add a range</legend>
-        <label for="begin">Range No.:&nbsp;</label>
-        <input type="text" size="25" name="range" id="begin" value="" /><br />
+        <label for="range">Range No.:&nbsp;</label>
+        <input type="text" size="25" name="range" id="range" value="" /><br />
         <label for="begin">Beginning Call No.:&nbsp;</label>
         <input type="text" size="25" name="begin" id="begin" value="" /><br />
         <label for="end">Ending Call No.:&nbsp;</label>
-        <input type="text" size="25" name="end" id="end" value=""
-            style="padding-left:17px" /><br />
-        <input type="hidden" size="25" name="section" id="hidden"
-            value="stacks" /><br />
-        <input type="hidden" size="25" name="mode" id="hidden"
-            value="processaddrange" /><br />
-        <input type="submit" name="submit" id="submit" value="Add range" />
+        <input type="text" size="25" name="end" id="end" value="" /><br />
+        <input type="hidden" name="section" value="stacks" />
+        <input type="hidden" name="mode" value="processaddrange" />
+        <input type="submit" value="Add range" />
         </fieldset>
         </form>
     ';
@@ -175,16 +172,14 @@ function deleteRange()
         <form action="index.php?section=stacks&mode=processdeleterange"
             method="get">
         <fieldset><legend>Confirm delete</legend>
-        <label for="begin">Are you sure you want to delete range ' .
-            htmlspecialchars($index) . '?&nbsp;</label><br /><br />
-        <input type="hidden" size="25" name="i" id="hidden" value="' .
-            htmlspecialchars($index) . '" /><br />
-        <input type="submit" name="submit" id="submit" value="Yes" />
-        <input type="submit" name="submit" id="submit" value="No" />
-        <input type="hidden" size="25" name="section" id="hidden"
-            value="stacks" /><br />
-        <input type="hidden" size="25" name="mode" id="hidden"
-            value="processdeleterange" /><br />
+        Are you sure you want to delete range ' .
+            htmlspecialchars($index) . '?&nbsp;<br />
+        <input type="hidden" name="i" value="' .
+            htmlspecialchars($index) . '" />
+        <input type="submit" name="submit" value="Yes" />
+        <input type="submit" name="submit" value="No" />
+        <input type="hidden" name="section" value="stacks" />
+        <input type="hidden" name="mode" value="processdeleterange" />
         </fieldset>
         </form>
     ';
@@ -253,14 +248,12 @@ function editRange()
             htmlspecialchars($begin) . '" /><br />
         <label for="end">Ending Call No.:&nbsp;</label>
         <input type="text" size="25" name="end" id="end" value="'.
-            htmlspecialchars($end) . '" style="padding-left:17px" /><br />
-        <input type="hidden" size="25" name="section" id="hidden"
-            value="stacks" /><br />
-        <input type="hidden" size="25" name="mode" id="hidden"
-            value="processeditrange" /><br />
-        <input type="hidden" size="25" name="i" id="hidden" value="'.
-            htmlspecialchars($index) . '" /><br />
-        <input type="submit" name="submit" id="submit" value="Update" />
+            htmlspecialchars($end) . '" /><br />
+        <input type="hidden" name="section" value="stacks" /><br />
+        <input type="hidden" name="mode" value="processeditrange" />
+        <input type="hidden" name="i" value="'.
+            htmlspecialchars($index) . '" />
+        <input type="submit" value="Update" />
         </fieldset>
         </form>
     ';

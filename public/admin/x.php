@@ -46,7 +46,7 @@ if (isset($_POST['location_id'])) {
             'INSERT INTO `stacks_%s` (`beginning_call_number`,'.
             ' `ending_call_number`, `range_number`, `std_beg`, `std_end`)'.
             ' VALUES("*", "*", "0", "%s", "%s")',
-            mysql_real_escape_string($location_d),
+            mysql_real_escape_string($location_id),
             mysql_real_escape_string(standardize('0')),
             mysql_real_escape_string(standardize('Z', true))
         )) or die('Invalid query: ' . mysql_error());

@@ -80,7 +80,7 @@ function uploadMap()
         <label for="mapname">Map name:&nbsp;</label>
         <input type="text" size="25" name="mapname" id="mapname" value="" />
         <br />
-        <input type="submit" name="submit" id="submit" value="Upload file" />
+        <input type="submit" value="Upload file" />
         </fieldset>
         </form>
     ';
@@ -101,12 +101,9 @@ function deleteMap()
         <form action="index.php?section=maps&mode=processdelete&i=' .
             htmlspecialchars($index) . '" method="post">
         <fieldset><legend>Confirm delete</legend>
-        <label for="begin">
-            Are you sure you want to delete this map?&nbsp;
-        </label>
-        <br /><br />
-        <input type="submit" name="submit" id="submit" value="Yes" />
-        <input type="submit" name="submit" id="submit" value="No" />
+        Are you sure you want to delete this map?&nbsp;<br />
+        <input type="submit" name="submit" value="Yes" />
+        <input type="submit" name="submit" value="No" />
         </fieldset>
         </form>
     ';
@@ -157,12 +154,10 @@ function selectLocation()
 
     $dynamic .= '
         </select>
-        <input type="hidden" size="25" name="section" id="hidden"
-            value="maps" />
-        <input type="hidden" size="25" name="mode" id="hidden"
-            value="processcurrentselect" />
-        <input type="hidden" size="25" name="map" id="hidden"
-            value="' . htmlspecialchars($c['name']) . '" />
+        <input type="hidden" name="section" value="maps" />
+        <input type="hidden" name="mode" value="processcurrentselect" />
+        <input type="hidden" name="map" value="' .
+            htmlspecialchars($c['name']) . '" />
         </form>
         <br />
     ';
