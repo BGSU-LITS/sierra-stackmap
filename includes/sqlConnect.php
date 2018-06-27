@@ -1,5 +1,5 @@
 <?php
-/* Utility function to facilitate database connection */
+// Utility function to facilitate database connection
 function sqlConnect()
 {
     static $link = false;
@@ -7,12 +7,12 @@ function sqlConnect()
     if (!$link) {
         require __DIR__ .  '/../config/db.php';
 
-        $link = mysql_connect($db_host, $db_user, $db_password);
+        $link = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 
         if (!$link) {
-            die("Couldn't connect to DB: " . mysql_error());
+            die("Couldn't connect to DB: " . mysqli_connect_error());
         }
-
-        mysql_select_db($db_name) or die("Couldn't open DB: " .mysql_error());
     }
+
+    return $link;
 }

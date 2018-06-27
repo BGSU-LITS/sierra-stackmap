@@ -7,7 +7,7 @@
 
 include('../../includes/sqlConnect.php');
 
-sqlConnect();
+$connect = sqlConnect();
 
 // Retrieve the file for the current map
 $location_id = '';
@@ -30,30 +30,30 @@ if (isset($_GET['location_id'])) {
     $set_mode = 'range';
     $range = $_GET['range'];
 
-    $sql = mysql_query('SELECT location_id FROM current');
+    $sql = mysqli_query($connect, 'SELECT location_id FROM current');
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $location_id = $row['location_id'];
     }
 }
 
-$result = mysql_query(sprintf(
+$result = mysqli_query($connect, sprintf(
     'SELECT mapid, location FROM maps WHERE location_id = %s',
-    mysql_real_escape_string($location_id)
-)) or die('Invalid query: ' . mysql_error());
+    mysqli_real_escape_string($connect, $location_id)
+)) or die('Invalid query: ' . mysqli_error($connect));
 
-$row = mysql_fetch_array($result);
+$row = mysqli_fetch_array($result);
 $mapid = $row['mapid'];
 $location = $row['location'];
 
-$sql = mysql_query(sprintf(
+$sql = mysqli_query($connect, sprintf(
     'SELECT filename FROM mapimgs WHERE mapid = %s',
-    mysql_real_escape_string($mapid)
+    mysqli_real_escape_string($connect, $mapid)
 ));
 
 $mapfile = '';
 
-if ($row = mysql_fetch_array($sql)) {
+if ($row = mysqli_fetch_array($sql)) {
     $mapfile = $row['filename'];
 }
 

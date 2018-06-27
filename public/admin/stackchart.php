@@ -11,8 +11,6 @@
 // database connections.
 include('../../includes/sqlConnect.php');
 
-sqlConnect();
-
 $query_results = get_chart();
 
 print_date();
@@ -22,17 +20,19 @@ print_table($query_results);
 // Grabs and returns a list of all stacks
 function get_chart()
 {
-    $sql = mysql_query('SELECT location_id FROM current');
+    $connect = sqlConnect();
+
+    $sql = mysqli_query($connect, 'SELECT location_id FROM current');
 
     $current_location = '';
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $current_location = $row['location_id'];
     }
 
-    $sql = mysql_query(sprintf(
+    $sql = mysqli_query($connect, sprintf(
         'SELECT * FROM stacks_%s ORDER BY range_number',
-        mysql_real_escape_string($current_location)
+        mysqli_real_escape_string($connect, $current_location)
     ));
 
     return $sql;
@@ -49,7 +49,7 @@ function print_date()
 function print_table($query_results)
 {
     $record_number = 0;
-    $half = ceil(mysql_num_rows($query_results) / 2);
+    $half = ceil(mysqli_num_rows($query_results) / 2);
 
     echo <<<END
 <div style="font-family: verdana,helvetica,arial,sans-serif">
@@ -62,7 +62,7 @@ function print_table($query_results)
 END;
 
     // For each stack record found...
-    while ($row = mysql_fetch_array($query_results)) {
+    while ($row = mysqli_fetch_array($query_results)) {
         if ($record_number == $half) {
             echo <<<END
 </table>

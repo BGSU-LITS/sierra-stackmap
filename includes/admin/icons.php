@@ -11,11 +11,11 @@
 // and deletion purposes
 function iconList()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     // Find all icons
-    $result = mysql_query('select * from iconimgs')
-    or die('Invalid query: ' . mysql_error());
+    $result = mysqli_query($connect, 'select * from iconimgs')
+    or die('Invalid query: ' . mysqli_error($connect));
 
     // Begin table
     $dynamicText = '
@@ -34,7 +34,7 @@ function iconList()
     $number = 1;
 
     // For each icon that has been uploaded...
-    while ($d = mysql_fetch_array($result)) {
+    while ($d = mysqli_fetch_array($result)) {
         // Set icon's name, filename, and file size
         $name = $d['name'];
         $filename = $d['filename'];
@@ -117,25 +117,25 @@ function deleteIcon()
 // icon with one of the maps.
 function assignIcon()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
-    $result = mysql_query('select * from iconimgs')
-    or die('Invalid query: ' . mysql_error());
+    $result = mysqli_query($connect, 'select * from iconimgs')
+    or die('Invalid query: ' . mysqli_error($connect));
 
-    $result2 = mysql_query('select * from mapimgs')
-    or die('Invalid query: ' . mysql_error());
+    $result2 = mysqli_query($connect, 'select * from mapimgs')
+    or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamicText = '';
 
     // For each map that exists...
-    while ($c = mysql_fetch_array($result2)) {
+    while ($c = mysqli_fetch_array($result2)) {
         // Find that map's currently assigned icon
-        $result3 = mysql_query(sprintf(
+        $result3 = mysqli_query($connect, sprintf(
             'select iconid from iconassign where mapid = %s',
-            mysql_real_escape_string($c['mapid'])
-        )) or die('Invalid query: ' . mysql_error());
+            mysqli_real_escape_string($connect, $c['mapid'])
+        )) or die('Invalid query: ' . mysqli_error($connect));
 
-        $e = mysql_fetch_array($result3);
+        $e = mysqli_fetch_array($result3);
 
         // ... print the map's name and a dropdown box.
         $dynamicText .= '
@@ -145,7 +145,7 @@ function assignIcon()
         ';
 
         // For each icon that exists... add a dropdown box item.
-        while ($d = mysql_fetch_array($result)) {
+        while ($d = mysqli_fetch_array($result)) {
             $name = $d['name'];
 
             // Does this icon match the currently assigned one?
@@ -173,7 +173,7 @@ function assignIcon()
             </form>
         ';
 
-        mysql_data_seek($result, 0);
+        mysqli_data_seek($result, 0);
     }
 
     return $dynamicText;
@@ -183,7 +183,7 @@ function assignIcon()
 // and give the user feedback.
 function processAssign()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     $map = '';
 
@@ -191,14 +191,14 @@ function processAssign()
         $map = $_GET['map'];
     }
 
-    $sql = mysql_query(sprintf(
+    $sql = mysqli_query($connect, sprintf(
         'SELECT mapid FROM mapimgs WHERE name = "%s"',
-        mysql_real_escape_string($map)
+        mysqli_real_escape_string($connect, $map)
     ));
 
     $mapid = '';
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $mapid = $row['mapid'];
     }
 
@@ -208,22 +208,22 @@ function processAssign()
         $icons = $_GET['icons'];
     }
 
-    $sql = mysql_query(sprintf(
+    $sql = mysqli_query($connect, sprintf(
         'SELECT icoid FROM iconimgs WHERE name = "%s"',
-        mysql_real_escape_string($icons)
+        mysqli_real_escape_string($connect, $icons)
     ));
 
     $iconid = '';
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $iconid = $row['icoid'];
     }
 
-    mysql_query(sprintf(
+    mysqli_query($connect, sprintf(
         'UPDATE `iconassign` SET `iconid` = "%s" WHERE `mapid` = "%s" LIMIT 1',
-        mysql_real_escape_string($iconid),
-        mysql_real_escape_string($mapid)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $iconid),
+        mysqli_real_escape_string($connect, $mapid)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamic = '
         <p>' . htmlspecialchars($icons) . ' has been successfully assigned

@@ -38,8 +38,6 @@ echo '<div style="float: left; width: 25%">';
 echo '<img src="arrowright.gif">';
 echo '</div>';
 
-sqlConnect();
-
 $query_results = get_chart($range_beg, $range_end);
 
 print_table($query_results);
@@ -47,21 +45,23 @@ print_table($query_results);
 // Gets the stack chart between the beginning and end call numbers
 function get_chart($range_beg, $range_end)
 {
-    $sql = mysql_query('SELECT location_id FROM current');
+    $connect = sqlConnect();
+
+    $sql = mysqli_query($connect, 'SELECT location_id FROM current');
 
     $current_location = '';
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $current_location = $row['location_id'];
     }
 
-    $sql = mysql_query(sprintf(
+    $sql = mysqli_query($connect, sprintf(
         'SELECT * FROM stacks_%s' .
         ' WHERE range_number >= "%s" AND range_number <= "%s"' .
         ' ORDER BY range_number',
-        mysql_real_escape_string($current_location),
-        mysql_real_escape_string($range_beg),
-        mysql_real_escape_string($range_end)
+        mysqli_real_escape_string($connect, $current_location),
+        mysqli_real_escape_string($connect, $range_beg),
+        mysqli_real_escape_string($connect, $range_end)
     ));
 
     return $sql;
@@ -77,7 +77,7 @@ function print_table($query_results)
 END;
 
     // For each stack record found...
-    while ($row = mysql_fetch_array($query_results)) {
+    while ($row = mysqli_fetch_array($query_results)) {
         $beg_callno = $row['beginning_call_number'];
         $end_callno = $row['ending_call_number'];
         $range_no = $row['range_number'];

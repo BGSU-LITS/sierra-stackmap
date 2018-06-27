@@ -1,9 +1,10 @@
 <?php
 /*  locations.php
 
-    This file has functions included for the purposes of the index.php Stack Map Admin control panel.
-    locations.php has a number of functions called by index.php's main menu that relate to printing and
-    managing a library's various locations within (or even outside) the library.
+    This file has functions included for the purposes of the index.php Stack
+    Map Admin control panel. locations.php has a number of functions called by
+    index.php's main menu that relate to printing and managing a library's
+    various locations within (or even outside) the library.
 */
 
 
@@ -11,13 +12,15 @@
 // (it's true when there's no ranges assigned to that specific location)
 function validateLocation($location_id)
 {
+    $connect = sqlConnect();
+
     // check to make sure no ranges exist in the location
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'SELECT count(*) as total_ranges from stacks_%s',
-        mysql_real_escape_string($location_id)
+        mysqli_real_escape_string($connect, $location_id)
     ));
 
-    $total_ranges = mysql_result($result, 0);
+    $total_ranges = mysqli_fetch_array($result)[0];
 
     if ($total_ranges > 1) {
         // more than 1 range, don't mess with it
@@ -25,12 +28,12 @@ function validateLocation($location_id)
     } elseif ($total_ranges == 1) {
         // if there's 1 range, make sure it's not assign to a specific
         // call number range
-        $result = mysql_query(sprintf(
+        $result = mysqli_query($connect, sprintf(
             'SELECT beginning_call_number, ending_call_number from stacks_%s',
-            mysql_real_escape_string($location_id)
+            mysqli_real_escape_string($connect, $location_id)
         ));
 
-        $row = mysql_fetch_array($result);
+        $row = mysqli_fetch_array($result);
 
         if ($row['beginning_call_number'] != '*'
          || $row['ending_call_number'] != '*') {
@@ -47,11 +50,11 @@ function validateLocation($location_id)
 // edit/deletion purposes
 function printLocations()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     // Needed to check whether a map has been assigned to a particular location
-    $result = mysql_query('select * from maps ORDER BY location')
-    or die('Invalid query: ' . mysql_error());
+    $result = mysqli_query($connect, 'select * from maps ORDER BY location')
+    or die('Invalid query: ' . mysqli_error($connect));
 
     $index = 0;
 
@@ -67,7 +70,7 @@ function printLocations()
     ';
 
     // For each location...
-    while ($d = mysql_fetch_array($result)) {
+    while ($d = mysqli_fetch_array($result)) {
         $location_id = $d['location_id'];
         $name = $d['location'];
         $link = $d['text_link'];
@@ -81,20 +84,20 @@ function printLocations()
 
         // If there's a map associated, find out which one
         if ($is_map) {
-            $result3 = mysql_query(sprintf(
+            $result3 = mysqli_query($connect, sprintf(
                 'select mapid from maps where location = "%s"',
-                mysql_real_escape_string($name)
-            )) or die('Invalid query: ' . mysql_error());
+                mysqli_real_escape_string($connect, $name)
+            )) or die('Invalid query: ' . mysqli_error($connect));
 
-            $e = mysql_fetch_array($result3);
+            $e = mysqli_fetch_array($result3);
             $mapid = $e['mapid'];
 
-            $result2 = mysql_query(sprintf(
+            $result2 = mysqli_query($connect, sprintf(
                 'SELECT filename FROM mapimgs WHERE mapid = %s',
-                mysql_real_escape_string($mapid)
-            )) or die('Invalid query: ' . mysql_error());
+                mysqli_real_escape_string($connect, $mapid)
+            )) or die('Invalid query: ' . mysqli_error($connect));
 
-            $d = mysql_fetch_array($result2);
+            $d = mysqli_fetch_array($result2);
             $is_map = $d['filename'];
         } else {
             $is_map = 'N/A';
@@ -157,18 +160,18 @@ function deleteLocation()
         $index = $_GET['i'];
     }
 
-    sqlConnect();
+    $connect = sqlConnect();
 
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'SELECT location from maps where location_id = %s',
-        mysql_real_escape_string($index)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $index)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
-    $location = mysql_result($result, 0);
+    $location = mysqli_fetch_array($result)[0];
 
     $dynamic = '
-        <form action="index.php?section=locations&amp;mode=processdelete&amp;i=' .
-            htmlspecialchars($index) . '" method="post">
+        <form action="index.php?section=locations&amp;mode=processdelete' .
+            '&amp;i=' . htmlspecialchars($index) . '" method="post">
         <fieldset><legend>Confirm delete</legend>
         <strong>Warning:</strong>
         You\'ve selected to delete location: <strong>' .
@@ -189,7 +192,7 @@ function deleteLocation()
 // Creates a form for editing an already-existing location record
 function editLocation()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     $index = '';
 
@@ -198,33 +201,33 @@ function editLocation()
     }
 
     // Get the map and mapid based on the location name
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'select * from maps where location_id = %s',
-        mysql_real_escape_string($index)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $index)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
-    $d = mysql_fetch_array($result);
+    $d = mysqli_fetch_array($result);
 
-    $result2 = mysql_query('select * from mapimgs')
-    or die('Invalid query: ' . mysql_error());
+    $result2 = mysqli_query($connect, 'select * from mapimgs')
+    or die('Invalid query: ' . mysqli_error($connect));
 
-    $result4 = mysql_query(sprintf(
+    $result4 = mysqli_query($connect, sprintf(
         'select mapid from maps where location_id = %s',
-        mysql_real_escape_string($index)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $index)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
-    $f = mysql_fetch_array($result4);
+    $f = mysqli_fetch_array($result4);
     $mapid = $f['mapid'];
 
     if (empty($mapid)) {
         $b = null;
     } else {
-        $result3 = mysql_query(sprintf(
+        $result3 = mysqli_query($connect, sprintf(
             'select name from mapimgs where mapid = %s',
-            mysql_real_escape_string($mapid)
-        )) or die('Invalid query: ' . mysql_error());
+            mysqli_real_escape_string($connect, $mapid)
+        )) or die('Invalid query: ' . mysqli_error($connect));
 
-        $b = mysql_fetch_array($result3);
+        $b = mysqli_fetch_array($result3);
     }
 
     $location = $d['location'];
@@ -247,7 +250,7 @@ function editLocation()
     ';
 
     // Make the dropdown box with map names.  Show the currently selected map
-    while ($c = mysql_fetch_array($result2)) {
+    while ($c = mysqli_fetch_array($result2)) {
         $name = $c['name'];
 
         if (empty($b['name'])) {
@@ -286,7 +289,7 @@ function editLocation()
 // user has submitted
 function processEditLocation()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     // This first segment checks to see if (and what) map has been assigned
     // to a location
@@ -294,12 +297,12 @@ function processEditLocation()
         $is_map = 0;
         $mapid = 'NULL';
     } else {
-        $result = mysql_query(sprintf(
+        $result = mysqli_query($connect, sprintf(
             'select mapid from mapimgs where name = "%s"',
-            mysql_real_escape_string($_GET['maps'])
-        )) or die('Invalid query: ' . mysql_error());
+            mysqli_real_escape_string($connect, $_GET['maps'])
+        )) or die('Invalid query: ' . mysqli_error($connect));
 
-        $d = mysql_fetch_array($result);
+        $d = mysqli_fetch_array($result);
 
         $is_map = 1;
         $mapid = $d['mapid'];
@@ -324,16 +327,16 @@ function processEditLocation()
     }
 
     // Update the database with the passed-in data
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'UPDATE `maps` SET `location` = "%s", `text_link` = "%s",' .
         ' `is_mapfile` = "%s", `mapid` = %s' .
         ' WHERE `location_id` = "%s" LIMIT 1',
-        mysql_real_escape_string($location),
-        mysql_real_escape_string($link),
-        mysql_real_escape_string($is_map),
-        mysql_real_escape_string($mapid),
-        mysql_real_escape_string($i)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $location),
+        mysqli_real_escape_string($connect, $link),
+        mysqli_real_escape_string($connect, $is_map),
+        mysqli_real_escape_string($connect, $mapid),
+        mysqli_real_escape_string($connect, $i)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamic =  '<p>Location has been successfully updated.</p>';
 
@@ -343,10 +346,10 @@ function processEditLocation()
 // Form for creating a new location
 function createLocation()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
-    $result = mysql_query('select name from mapimgs')
-    or die("Invalid query: " . mysql_error());
+    $result = mysqli_query($connect, 'select name from mapimgs')
+    or die("Invalid query: " . mysqli_error($connect));
 
     $dynamic = '
         <form action="index.php" method="get">
@@ -361,7 +364,7 @@ function createLocation()
     ';
 
     // Show a list of all the maps
-    while ($c = mysql_fetch_array($result)) {
+    while ($c = mysqli_fetch_array($result)) {
         $name = $c['name'];
 
         $dynamic .= '
@@ -384,19 +387,19 @@ function createLocation()
 // Update the database by inserting a new location into it
 function processCreateLocation()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     // Determine whether (and what) map has been assigned to the new location
     if (empty($_GET['maps']) || $_GET['maps'] == 'None') {
         $is_map = 0;
         $mapid = 'NULL';
     } else {
-        $result = mysql_query(sprintf(
+        $result = mysqli_query($connect, sprintf(
             'select mapid from mapimgs where name = "%s"',
-            mysql_real_escape_string($_GET['maps'])
-        )) or die('Invalid query: ' . mysql_error());
+            mysqli_real_escape_string($connect, $_GET['maps'])
+        )) or die('Invalid query: ' . mysqli_error($connect));
 
-        $d = mysql_fetch_array($result);
+        $d = mysqli_fetch_array($result);
 
         $is_map = 1;
         $mapid = $d['mapid'];
@@ -415,31 +418,31 @@ function processCreateLocation()
     }
 
     // Update db
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'INSERT INTO `maps` (`location`, `text_link`, `is_mapfile`, `mapid`)' .
         ' VALUES ("%s", "%s", %s, %s)',
-        mysql_real_escape_string($locname),
-        mysql_real_escape_string($link),
-        mysql_real_escape_string($is_map),
-        mysql_real_escape_string($mapid)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $locname),
+        mysqli_real_escape_string($connect, $link),
+        mysqli_real_escape_string($connect, $is_map),
+        mysqli_real_escape_string($connect, $mapid)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     // create a new table `stacks_locid`
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'SELECT location_id from maps WHERE location = "%s"',
-        mysql_real_escape_string($locname)
+        mysqli_real_escape_string($connect, $locname)
     ));
 
-    $loc_id = mysql_result($result, 0);
+    $loc_id = mysqli_fetch_array($result)[0];
 
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'CREATE TABLE `stacks_%s` (`beginning_call_number` varchar(50),' .
         ' `ending_call_number` varchar(50), `range_number` int(50),' .
         ' `std_beg` varchar(75), `std_end` varchar(75),' .
         ' `x_coord` smallint(4), `y_coord` smallint(4),' .
         ' PRIMARY KEY(`range_number`))',
-        mysql_real_escape_string($loc_id)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $loc_id)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamic = '<p>Location has been successfully created.</p>';
 

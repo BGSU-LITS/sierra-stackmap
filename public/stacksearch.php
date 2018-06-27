@@ -20,13 +20,15 @@ include('../includes/sqlConnect.php');
 // number more suitable for an alphabetical database range search.
 include('../includes/standardize.php');
 
-$callnum = $_GET['callnumber'];
+$callnum = '';
 
-// Update call number formatting (see above)
-$callnum = standardize($callnum);
+if (!empty($_GET['callnumber'])) {
+    // Update call number formatting (see above)
+    $callnum = standardize($_GET['callnumber']);
+}
 
 // Connect to the 'rangeguide' database
-sqlConnect();
+$connect = sqlConnect();
 
 // Came from a page that will require a selection
 $location_id = '';
@@ -34,27 +36,27 @@ $location_id = '';
 if (array_key_exists('location_id', $_GET)) {
     $location_id = $_GET['location_id'];
 } else {
-    $sql = mysql_query('SELECT location_id FROM current');
+    $sql = mysqli_query($connect, 'SELECT location_id FROM current');
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $location_id = $row['location_id'];
     }
 }
 
-$result = mysql_query(sprintf(
+$result = mysqli_query($connect, sprintf(
     'SELECT mapid FROM maps WHERE location_id = %s',
-    mysql_real_escape_string($location_id)
+    mysqli_real_escape_string($connect, $location_id)
 ));
 
-$mapid = mysql_result($result, 0);
+$mapid = mysqli_fetch_array($result)[0];
 
 // The search takes advantage of the alphabetical nature of call numbers to
 // find the appropriate number within the range
-$sql = mysql_query(sprintf(
+$sql = mysqli_query($connect, sprintf(
     'SELECT * FROM `%s` WHERE std_beg <= "%s" AND std_end >= "%s"',
-    mysql_real_escape_string('stacks_' . $location_id),
-    mysql_real_escape_string($callnum),
-    mysql_real_escape_string($callnum)
+    mysqli_real_escape_string($connect, 'stacks_' . $location_id),
+    mysqli_real_escape_string($connect, $callnum),
+    mysqli_real_escape_string($connect, $callnum)
 ));
 
 // This second query is necessary now that the user can assign icons
@@ -62,44 +64,44 @@ $sql = mysql_query(sprintf(
 // to the current map and gets the file name. Notice that mapid is set to the
 // constant 1 presently -- that number can eventually be changed to a variable
 // equal to the map id of whatever the "current map" is.
-$sql3 = mysql_query(sprintf(
+$sql3 = mysqli_query($connect, sprintf(
     'SELECT filename FROM mapimgs WHERE mapid = %s',
-    mysql_real_escape_string($mapid)
+    mysqli_real_escape_string($connect, $mapid)
 ));
 
 $mapfile = '';
 
-if ($row3 = mysql_fetch_array($sql3)) {
+if ($row3 = mysqli_fetch_array($sql3)) {
     $mapfile = $row3['filename'];
 }
 
-$sql2 = mysql_query(sprintf(
+$sql2 = mysqli_query($connect, sprintf(
     'SELECT filename FROM iconassign, iconimgs WHERE iconid = icoid' .
     ' AND mapid = %s',
-    mysql_real_escape_string($mapid)
+    mysqli_real_escape_string($connect, $mapid)
 ));
 
 $iconfile = '';
 
-if ($row2 = mysql_fetch_array($sql2)) {
+if ($row2 = mysqli_fetch_array($sql2)) {
     $iconfile = $row2['filename'];
 }
 
-$sql4 = mysql_query(sprintf(
+$sql4 = mysqli_query($connect, sprintf(
     'SELECT location FROM maps WHERE location_id = %s',
-    mysql_real_escape_string($location_id)
+    mysqli_real_escape_string($connect, $location_id)
 ));
 
 $location = '';
 
-if ($row4 = mysql_fetch_array($sql4)) {
+if ($row4 = mysqli_fetch_array($sql4)) {
     $location = $row4['location'];
 }
 
 // Iterate through the resultset and find the range number. Display it to the
 // user. Although this works by looping through the array, it should _never_
 // return more than one result.
-while ($row = mysql_fetch_array($sql)) {
+while ($row = mysqli_fetch_array($sql)) {
     // This functionality may eventually be removed -- for now it's there to
     // reassure the user that the correct number was queried.
     echo '<br>&nbsp;&nbsp;Your selected call number ';
@@ -120,13 +122,13 @@ while ($row = mysql_fetch_array($sql)) {
 // the stack section that the previous search returned.
 if (isset($index)) {
     // A valid stack number in range and the marker can be placed
-    $xycoords = mysql_query(sprintf(
+    $xycoords = mysqli_query($connect, sprintf(
         'SELECT x_coord, y_coord FROM `%s` WHERE range_number = %s',
-        mysql_real_escape_string('stacks_' . $location_id),
-        mysql_real_escape_string($index)
+        mysqli_real_escape_string($connect, 'stacks_' . $location_id),
+        mysqli_real_escape_string($connect, $index)
     ));
 
-    while ($row = mysql_fetch_array($xycoords)) {
+    while ($row = mysqli_fetch_array($xycoords)) {
         $img_x_coord = $row['x_coord'];
         $img_y_coord = $row['y_coord'];
     }
@@ -150,7 +152,8 @@ if (isset($index)) {
 }
 ?>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-3319349-2"></script>
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-3319349-2"
+    async></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}

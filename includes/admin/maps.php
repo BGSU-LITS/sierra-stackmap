@@ -11,10 +11,11 @@
 // Alow for editing and deletion.
 function mapList()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     $query = 'select * from mapimgs';
-    $result = mysql_query($query) or die('Invalid query: ' . mysql_error());
+    $result = mysqli_query($connect, $query)
+    or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamicText = '
         <table cellpadding="0" cellspacing="0" id="stackList">
@@ -29,7 +30,7 @@ function mapList()
 
     $number = 1;
 
-    while ($d = mysql_fetch_array($result)) {
+    while ($d = mysqli_fetch_array($result)) {
         $name = $d['name'];
         $filename = $d['filename'];
         $mapid = $d['mapid'];
@@ -118,14 +119,17 @@ function selectLocation()
 {
     $dynamic = '';
 
-    sqlConnect();
+    $connect = sqlConnect();
 
     $query2 = 'select * from maps order by location';
-    $result2 = mysql_query($query2) or die('Invalid query: ' . mysql_error());
+    $result2 = mysqli_query($connect, $query2)
+    or die('Invalid query: ' . mysqli_error($connect));
 
     $query3 = 'select location_id from current';
-    $result3 = mysql_query($query3) or die('Invalid query: ' . mysql_error());
-    $e = mysql_fetch_array($result3);
+    $result3 = mysqli_query($connect, $query3)
+    or die('Invalid query: ' . mysqli_error($connect));
+
+    $e = mysqli_fetch_array($result3);
 
     $dynamic .= '
         <form id="currentMap" enctype="multipart/form-data"
@@ -135,7 +139,7 @@ function selectLocation()
         <option value="nomap">Please select a location...</option>
     ';
 
-    while ($c = mysql_fetch_array($result2)) {
+    while ($c = mysqli_fetch_array($result2)) {
         $location = $c['location'];
         $selected = '';
 
@@ -172,24 +176,24 @@ function processSelect()
         return;
     }
 
-    sqlConnect();
+    $connect = sqlConnect();
 
-    $sql = mysql_query(sprintf(
+    $sql = mysqli_query($connect, sprintf(
         'SELECT location_id FROM maps WHERE location = "%s"',
-        mysql_real_escape_string($_GET['currentmap'])
+        mysqli_real_escape_string($connect, $_GET['currentmap'])
     ));
 
     $location_id = '';
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $location_id = $row['location_id'];
     }
 
-    $sql = mysql_query(sprintf(
+    $sql = mysqli_query($connect, sprintf(
         'UPDATE `current` SET `location_id` = "%s"'.
         ' WHERE `location_id` is not null LIMIT 1',
-        mysql_real_escape_string($location_id)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $location_id)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamic = '
         <p>' . htmlspecialchars($_GET['currentmap']) . ' has been successfully

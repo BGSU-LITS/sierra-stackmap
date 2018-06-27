@@ -205,13 +205,13 @@ function errorNoMapSelected()
 // Show the instructions to the user in the home page
 function instructions()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
-    mysql_query('DELETE FROM `current`')
-    or die('Invalid query: ' . mysql_error());
+    mysqli_query($connect, 'DELETE FROM `current`')
+    or die('Invalid query: ' . mysqli_error($connect));
 
-    mysql_query('INSERT INTO `current` (`location_id`) VALUES("")')
-    or die('Invalid query: ' . mysql_error());
+    mysqli_query($connect, 'INSERT INTO `current` (`location_id`) VALUES("")')
+    or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamic = '<p>Welcome to the interactive stack map.</p>';
     $dynamic .= '<p>Please select a location from the dropdown menu on your';
@@ -225,12 +225,12 @@ function instructions()
 // control panel.
 function getCurrentLocationID()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
-    $sql = mysql_query('SELECT location_id FROM current')
-    or die('Invalid query: ' . mysql_error());
+    $sql = mysqli_query($connect, 'SELECT location_id FROM current')
+    or die('Invalid query: ' . mysqli_error($connect));
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         return $row['location_id'];
     }
 
@@ -254,37 +254,37 @@ function processUpload($fileinfo1, $fileinfo2, $section, $newname)
         $dynamic .= ' has been uploaded.</p>';
 
         // Update database
-        sqlConnect();
+        $connect = sqlConnect();
 
         if ($section == 'maps') {
             $query = sprintf(
                 'INSERT INTO `mapimgs` (`mapid`, `name`, `filename`)' .
                 ' VALUES ("", "%s", "%s")',
-                mysql_real_escape_string($newname),
-                mysql_real_escape_string($fileinfo1)
+                mysqli_real_escape_string($connect, $newname),
+                mysqli_real_escape_string($connect, $fileinfo1)
             );
 
-            mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
             $query = sprintf(
                 'SELECT mapid FROM mapimgs WHERE name = "%s"',
-                mysql_real_escape_string($newname)
+                mysqli_real_escape_string($connect, $newname)
             );
 
-            $result = mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            $result = mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
-            $d = mysql_fetch_array($result);
+            $d = mysqli_fetch_array($result);
             $newmapid = $d['mapid'];
 
             $query = sprintf(
                 'INSERT INTO `iconassign` (`mapid`) VALUES ("%s")',
-                mysql_real_escape_string($newmapid)
+                mysqli_real_escape_string($connect, $newmapid)
             );
 
-            mysql_query($query)
-            or die("Invalid query: " . mysql_error());
+            mysqli_query($connect, $query)
+            or die("Invalid query: " . mysqli_error($connect));
 
             $dynamic .= '<p>' . htmlspecialchars($newname);
             $dynamic .= ' has been uploaded. Please make sure you assign an';
@@ -295,12 +295,12 @@ function processUpload($fileinfo1, $fileinfo2, $section, $newname)
             $query = sprintf(
                 'INSERT INTO `iconimgs` (`icoid`, `name`, `filename`)' .
                 ' VALUES ("", "%s", "%s")',
-                mysql_real_escape_string($newname),
-                mysql_real_escape_string($fileinfo1)
+                mysqli_real_escape_string($connect, $newname),
+                mysqli_real_escape_string($connect, $fileinfo1)
             );
 
-            mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
         }
     } else {
         // Note that this is the result of the move_uploaded_file() function
@@ -325,35 +325,35 @@ function processDelete($type)
         // to that data passed to this page.
         $id = $_GET['i'];
 
-        sqlConnect();
+        $connect = sqlConnect();
 
         if ($type == 'maps') {
             // Remove map from database
             $query = sprintf(
                 'select filename FROM mapimgs where mapid = %s',
-                mysql_real_escape_string($id)
+                mysqli_real_escape_string($connect, $id)
             );
 
-            $result = mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            $result = mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
-            $d = mysql_fetch_array($result);
+            $d = mysqli_fetch_array($result);
 
             $query = sprintf(
                 'DELETE FROM `mapimgs` WHERE `mapid` = %s LIMIT 1',
-                mysql_real_escape_string($id)
+                mysqli_real_escape_string($connect, $id)
             );
 
-            mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
             $query = sprintf(
                 'DELETE FROM `iconassign` WHERE `mapid` = %s LIMIT 1',
-                mysql_real_escape_string($id)
+                mysqli_real_escape_string($connect, $id)
             );
 
-            mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
             // Remove map from file server
             $filename = $d['filename'];
@@ -368,21 +368,21 @@ function processDelete($type)
             // Remove icon from database
             $query = sprintf(
                 'select filename FROM iconimgs where icoid = %s',
-                mysql_real_escape_string($id)
+                mysqli_real_escape_string($connect, $id)
             );
 
-            $result = mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            $result = mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
-            $d = mysql_fetch_array($result);
+            $d = mysqli_fetch_array($result);
 
             $query = sprintf(
                 'DELETE FROM `iconimgs` WHERE `icoid` = %s LIMIT 1',
-                mysql_real_escape_string($id)
+                mysqli_real_escape_string($connect, $id)
             );
 
-            mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
             // Remove icon from file server
             $filename = $d['filename'];
@@ -396,20 +396,20 @@ function processDelete($type)
             // so only a location record needs to be deleted.
             $query = sprintf(
                 'DELETE FROM `maps` WHERE `location_id` = "%s" LIMIT 1',
-                mysql_real_escape_string($id)
+                mysqli_real_escape_string($connect, $id)
             );
 
-            mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
             // drop stacks table if exists
             $query = sprintf(
                 'DROP TABLE `stacks_%s`',
-                mysql_real_escape_string($id)
+                mysqli_real_escape_string($connect, $id)
             );
 
-            mysql_query($query)
-            or die('Invalid query: ' . mysql_error());
+            mysqli_query($connect, $query)
+            or die('Invalid query: ' . mysqli_error($connect));
 
             $dynamic = '<p>Location has been successfully deleted.</p>';
         }
@@ -423,7 +423,7 @@ function processDelete($type)
 // passed to it. $section determines which menu to show collapsed
 function printPage($dynamicText, $section, $mode)
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     // Print header and style information
     print <<<END

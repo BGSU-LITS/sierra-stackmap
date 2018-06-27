@@ -27,7 +27,7 @@ include('../includes/sqlConnect.php');
 
 
 // Connect to the 'rangeguide' database.
-sqlConnect();
+$connect = sqlConnect();
 
 // Declare arrays that will store the scraped data - by location, call number,
 // and availability, respectively
@@ -43,39 +43,39 @@ if (count($loc_arr) != count($call_arr)) {
 }
 
 // Connect to database and determine the link to which you need to redirect
-$sql = mysql_query(sprintf(
+$sql = mysqli_query($connect, sprintf(
     'SELECT text_link FROM maps WHERE location = "%s"',
-    mysql_real_escape_string($loc_arr[0])
+    mysqli_real_escape_string($connect, $loc_arr[0])
 ));
 
 // link for no map
 $link = "http://www.bgsu.edu/library/about/local-abbreviations.html";
 
-while ($row = mysql_fetch_array($sql)) {
+while ($row = mysqli_fetch_array($sql)) {
     $link = $row['text_link'];
 }
 
-$sql2 = mysql_query(sprintf(
+$sql2 = mysqli_query($connect, sprintf(
     'SELECT is_mapfile FROM maps WHERE location = "%s"',
-    mysql_real_escape_string($loc_arr[0])
+    mysqli_real_escape_string($connect, $loc_arr[0])
 ));
 
 $ismap = 0;
 
-while ($row = mysql_fetch_array($sql2)) {
+while ($row = mysqli_fetch_array($sql2)) {
     $ismap = $row['is_mapfile'];
 }
 
 if ($ismap) {
     // Special exception because stacksearch.php is call number dependent
-    $sql = mysql_query(sprintf(
+    $sql = mysqli_query($connect, sprintf(
         'SELECT location_id FROM maps WHERE location = "%s"',
-        mysql_real_escape_string($loc_arr[0])
+        mysqli_real_escape_string($connect, $loc_arr[0])
     ));
 
     $location_id = 0;
 
-    if ($row = mysql_fetch_array($sql)) {
+    if ($row = mysqli_fetch_array($sql)) {
         $location_id = $row['location_id'];
     }
 

@@ -1,9 +1,10 @@
 <?php
 /*  utilities.php
 
-    This file has functions included for the purposes of the index.php Stack Map Admin control panel.
-    utilities.php has a number of functions called by index.php's main menu that relate to specialized
-    printing and testing of pre-entered stack ranges.
+    This file has functions included for the purposes of the index.php Stack
+    Map Admin control panel. utilities.php has a number of functions called by
+    index.php's main menu that relate to specialized printing and testing of
+    pre-entered stack ranges.
 */
 
 // Redirects to a page that will print all stacks
@@ -128,16 +129,16 @@ function testStandard()
         $text .= 'After standardized: ';
         $text .= htmlspecialchars($stan) . '<br>';
 
-        sqlConnect();
+        $connect = sqlConnect();
 
-        $sql = mysql_query(sprintf(
+        $sql = mysqli_query($connect, sprintf(
             'SELECT * FROM `stacks_1`' .
             ' WHERE std_beg <= "%s" AND std_end >= "%s"',
-            mysql_real_escape_string($stan),
-            mysql_real_escape_string($stan)
+            mysqli_real_escape_string($connect, $stan),
+            mysqli_real_escape_string($connect, $stan)
         ));
 
-        while ($row = mysql_fetch_array($sql)) {
+        while ($row = mysqli_fetch_array($sql)) {
             $text .= 'Found in stack: ';
             $text .= htmlspecialchars($row['range_number']) . '<br>';
         }

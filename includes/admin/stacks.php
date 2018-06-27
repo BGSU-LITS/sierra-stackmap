@@ -17,10 +17,12 @@ function stackList()
         return errorNoMapSelected();
     }
 
-    $result = mysql_query(sprintf(
+    $connect = sqlConnect();
+
+    $result = mysqli_query($connect, sprintf(
         'select * from stacks_%s ORDER BY range_number',
-        mysql_real_escape_string($location_id)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $location_id)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     // Begin a table to contain the stack records
     $dynamicText = '
@@ -36,7 +38,7 @@ function stackList()
     // For each range number found...
     $i = 0;
 
-    while ($d = mysql_fetch_array($result)) {
+    while ($d = mysqli_fetch_array($result)) {
         $number = $d['range_number'];
         $begin = $d['beginning_call_number'];
         $end = $d['ending_call_number'];
@@ -131,7 +133,7 @@ function processAddRange()
         $end = $end_stan = $_GET['end'];
     }
 
-    sqlConnect();
+    $connect = sqlConnect();
 
     // Remember -- the range is added to the current map
     $location_id = getCurrentLocationID();
@@ -139,17 +141,17 @@ function processAddRange()
     // Note that the call numbers are run through standardize(), which is in
     // ../includes/standardize.php to put the call numbers into searchable
     // format. See that file for more details.
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'INSERT INTO `stacks_%s` (`beginning_call_number`,' .
         ' `ending_call_number`, `range_number`, `std_beg`, `std_end`)'.
         ' VALUES ("%s", "%s", "%s", "%s", "%s")',
-        mysql_real_escape_string($location_id),
-        mysql_real_escape_string($begin),
-        mysql_real_escape_string($end),
-        mysql_real_escape_string($range),
-        mysql_real_escape_string(standardize($begin_stan)),
-        mysql_real_escape_string(standardize($end_stan, true))
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $location_id),
+        mysqli_real_escape_string($connect, $begin),
+        mysqli_real_escape_string($connect, $end),
+        mysqli_real_escape_string($connect, $range),
+        mysqli_real_escape_string($connect, standardize($begin_stan)),
+        mysqli_real_escape_string($connect, standardize($end_stan, true))
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamic = '<p>Successfully added range ' . htmlspecialchars($range);
     $dynamic .= ' (' . htmlspecialchars($begin) . '-'. htmlspecialchars($end);
@@ -196,15 +198,15 @@ function processDeleteRange()
     } else {
         $range = $_GET['i'];
 
-        sqlConnect();
+        $connect = sqlConnect();
 
         $location_id = getCurrentLocationID();
 
-        $result = mysql_query(sprintf(
+        $result = mysqli_query($connect, sprintf(
             'DELETE FROM `stacks_%s` WHERE `range_number` = %s LIMIT 1',
-            mysql_real_escape_string($location_id),
-            mysql_real_escape_string($range)
-        )) or die('Invalid query: ' . mysql_error());
+            mysqli_real_escape_string($connect, $location_id),
+            mysqli_real_escape_string($connect, $range)
+        )) or die('Invalid query: ' . mysqli_error($connect));
 
         $dynamic = '
             <p>Range ' . htmlspecialchars($range) . '
@@ -220,7 +222,7 @@ function processDeleteRange()
 // can then edit.
 function editRange()
 {
-    sqlConnect();
+    $connect = sqlConnect();
 
     $index = '';
 
@@ -230,13 +232,13 @@ function editRange()
 
     $location_id = getCurrentLocationID();
 
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'select * from stacks_%s where range_number = %s',
-        mysql_real_escape_string($location_id),
-        mysql_real_escape_string($index)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $location_id),
+        mysqli_real_escape_string($connect, $index)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
-    $d = mysql_fetch_array($result);
+    $d = mysqli_fetch_array($result);
 
     $begin = $d['beginning_call_number'];
     $end = $d['ending_call_number'];
@@ -287,21 +289,21 @@ function processEditRange()
         $end = $end_stan = $_GET['end'];
     }
 
-    sqlConnect();
+    $connect = sqlConnect();
 
     $location_id = getCurrentLocationID();
 
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'UPDATE `stacks_%s` SET `beginning_call_number` = "%s",' .
         ' `ending_call_number` = "%s", `std_beg` = "%s", `std_end` = "%s"' .
         ' WHERE `range_number` = "%s" LIMIT 1',
-        mysql_real_escape_string($location_id),
-        mysql_real_escape_string($begin),
-        mysql_real_escape_string($end),
-        mysql_real_escape_string(standardize($begin_stan)),
-        mysql_real_escape_string(standardize($end_stan, true)),
-        mysql_real_escape_string($range)
-    )) or die('Invalid query: ' . mysql_error());
+        mysqli_real_escape_string($connect, $location_id),
+        mysqli_real_escape_string($connect, $begin),
+        mysqli_real_escape_string($connect, $end),
+        mysqli_real_escape_string($connect, standardize($begin_stan)),
+        mysqli_real_escape_string($connect, standardize($end_stan, true)),
+        mysqli_real_escape_string($connect, $range)
+    )) or die('Invalid query: ' . mysqli_error($connect));
 
     $dynamic = '
         <p>Range '. htmlspecialchars($range) . ' has been successfully

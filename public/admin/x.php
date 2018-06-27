@@ -21,7 +21,7 @@ if (isset($_POST['y'])) {
     $yCoord = $_POST['y'];
 }
 
-sqlConnect();
+$connect = sqlConnect();
 
 if (isset($_POST['location_id'])) {
     $set_mode = 'location';
@@ -32,24 +32,24 @@ if (isset($_POST['location_id'])) {
     $stackNo = 0;
 
     // check the total ranges (must be either one or zero)
-    $result = mysql_query(sprintf(
+    $result = mysqli_query($connect, sprintf(
         'SELECT count(*) as total_ranges from stacks_%s',
-        mysql_real_escape_string($location_id)
+        mysqli_real_escape_string($connect, $location_id)
     ));
 
-    $total_ranges = mysql_result($result, 0);
+    $total_ranges = mysqli_fetch_array($result)[0];
 
     if ($total_ranges == 0) {
         // insert a new row in stacks_locid, so that later it can be updated
         // with the new map coordinate values.
-        $result = mysql_query(sprintf(
+        $result = mysqli_query($connect, sprintf(
             'INSERT INTO `stacks_%s` (`beginning_call_number`,'.
             ' `ending_call_number`, `range_number`, `std_beg`, `std_end`)'.
             ' VALUES("*", "*", "0", "%s", "%s")',
-            mysql_real_escape_string($location_id),
-            mysql_real_escape_string(standardize('0')),
-            mysql_real_escape_string(standardize('Z', true))
-        )) or die('Invalid query: ' . mysql_error());
+            mysqli_real_escape_string($connect, $location_id),
+            mysqli_real_escape_string($connect, standardize('0')),
+            mysqli_real_escape_string($connect, standardize('Z', true))
+        )) or die('Invalid query: ' . mysqli_error($connect));
     } elseif ($total_ranges > 1) {
         die('
             Error encountered: You shouldn\'t arrive here. Total ranges should
@@ -61,67 +61,67 @@ if (isset($_POST['location_id'])) {
     $stackNo = $_POST['stackNo'];
 
     // A map must be selected as current to assign icons to it.
-    $sql3 = mysql_query('SELECT location_id FROM current');
+    $sql3 = mysqli_query($connect, 'SELECT location_id FROM current');
 
     $location_id = '';
 
-    if ($row3 = mysql_fetch_array($sql3)) {
+    if ($row3 = mysqli_fetch_array($sql3)) {
         $location_id = $row3['location_id'];
     }
 } else {
     die('Error: Parameter incorrect.');
 }
 
-$result = mysql_query(sprintf(
+$result = mysqli_query($connect, sprintf(
     'SELECT mapid, location FROM maps WHERE location_id = %s',
-    mysql_real_escape_string($location_id)
+    mysqli_real_escape_string($connect, $location_id)
 ));
 
-$row = mysql_fetch_array($result);
+$row = mysqli_fetch_array($result);
 $mapid = $row['mapid'];
 $location = $row['location'];
 
 $mapfile = '';
 
-$sql = mysql_query(sprintf(
+$sql = mysqli_query($connect, sprintf(
     'SELECT filename FROM mapimgs WHERE mapid = %s',
-    mysql_real_escape_string($mapid)
+    mysqli_real_escape_string($connect, $mapid)
 ));
 
-if ($row = mysql_fetch_array($sql)) {
+if ($row = mysqli_fetch_array($sql)) {
     $mapfile = $row['filename'];
 }
 
 $currenticon = 1;
 $iconfile = '';
 
-$sql2 = mysql_query(sprintf(
+$sql2 = mysqli_query($connect, sprintf(
     'SELECT filename FROM iconassign, iconimgs WHERE iconid = icoid'.
     ' AND mapid = %s',
-    mysql_real_escape_string($mapid)
+    mysqli_real_escape_string($connect, $mapid)
 ));
 
-if ($row2 = mysql_fetch_array($sql2)) {
+if ($row2 = mysqli_fetch_array($sql2)) {
     $iconfile = $row2['filename'];
 }
 
 // Fill the stack table with the x and y coordinates of the user's click
-$result = mysql_query(sprintf(
+$result = mysqli_query($connect, sprintf(
     'UPDATE stacks_%s SET x_coord = %s, y_coord = %s WHERE range_number = %s',
-    mysql_real_escape_string($location_id),
-    mysql_real_escape_string($xCoord),
-    mysql_real_escape_string($yCoord),
-    mysql_real_escape_string($stackNo)
-)) or die('Invalid query: ' . mysql_error());
+    mysqli_real_escape_string($connect, $location_id),
+    mysqli_real_escape_string($connect, $xCoord),
+    mysqli_real_escape_string($connect, $yCoord),
+    mysqli_real_escape_string($connect, $stackNo)
+)) or die('Invalid query: ' . mysqli_error($connect));
 
 // Query the database to ensure the data was added correctly
-$xycoords = mysql_query(sprintf(
+$xycoords = mysqli_query($connect, sprintf(
     'SELECT x_coord, y_coord FROM stacks_%s WHERE range_number = "%s"',
-    mysql_real_escape_string($location_id),
-    mysql_real_escape_string($stackNo)
+    mysqli_real_escape_string($connect, $location_id),
+    mysqli_real_escape_string($connect, $stackNo)
 ));
 
-while ($row = mysql_fetch_array($xycoords)) {
+while ($row = mysqli_fetch_array($xycoords)) {
     $img_x_coord = $row['x_coord'];
     $img_y_coord = $row['y_coord'];
 }
