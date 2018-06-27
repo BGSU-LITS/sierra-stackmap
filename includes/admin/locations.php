@@ -131,10 +131,10 @@ function printLocations()
         }
 
         $dynamicText .= '
-            <td><a href="index.php?section=locations&mode=edit&i=' .
+            <td><a href="index.php?section=locations&amp;mode=edit&amp;i=' .
                     htmlspecialchars($location_id) . '">
                 <img border="0" src="edit.png" alt="Edit"></a></td>
-            <td><a href="index.php?section=locations&mode=delete&i=' .
+            <td><a href="index.php?section=locations&amp;mode=delete&amp;i=' .
                     htmlspecialchars($location_id) . '">
                 <img border="0" src="delete.png" alt="Delete"></a></td>
             </tr>
@@ -167,7 +167,7 @@ function deleteLocation()
     $location = mysql_result($result, 0);
 
     $dynamic = '
-        <form action="index.php?section=locations&mode=processdelete&i=' .
+        <form action="index.php?section=locations&amp;mode=processdelete&amp;i=' .
             htmlspecialchars($index) . '" method="post">
         <fieldset><legend>Confirm delete</legend>
         <strong>Warning:</strong>

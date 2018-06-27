@@ -52,7 +52,7 @@ function mapList()
             <td>' . htmlspecialchars($size) . ' K</td>
             <td><a href="../maps/' . htmlspecialchars($filename) . '">
                 View</a></td>
-            <td><a href="index.php?section=maps&mode=delete&i=' .
+            <td><a href="index.php?section=maps&amp;mode=delete&amp;i=' .
                 htmlspecialchars($mapid) . '">
                 <img border="0" src="delete.png"></a></td>
             </tr>
@@ -71,7 +71,7 @@ function uploadMap()
 {
     $dynamic = '
         <form enctype="multipart/form-data" method="post"
-            action="index.php?section=maps&mode=processupload">
+            action="index.php?section=maps&amp;mode=processupload">
         <fieldset><legend>Upload map</legend>
         <input type="hidden" size="25" name="MAX_FILE_SIZE" value="1000000" />
         <label for="upload">File:&nbsp;</label>
@@ -98,7 +98,7 @@ function deleteMap()
     }
 
     $dynamic = '
-        <form action="index.php?section=maps&mode=processdelete&i=' .
+        <form action="index.php?section=maps&amp;mode=processdelete&amp;i=' .
             htmlspecialchars($index) . '" method="post">
         <fieldset><legend>Confirm delete</legend>
         Are you sure you want to delete this map?&nbsp;<br />
@@ -146,7 +146,8 @@ function selectLocation()
         }
 
         $dynamic .= '
-            <option' . $selected . ' value="' .
+            <option' .
+                htmlspecialchars($selected) . ' value="' .
                 htmlspecialchars($location) . '">&nbsp;&nbsp;&nbsp;' .
                 htmlspecialchars($location) . '</option>
         ';

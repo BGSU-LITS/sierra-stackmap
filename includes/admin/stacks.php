@@ -61,10 +61,10 @@ function stackList()
             <td><a onclick="window.open(\'coor.php?range=' .
                     htmlspecialchars($number) . '\')" href="#">
                 <img border="0" src="mapit.gif" title="Map It!" /></a></td>
-            <td><a href="index.php?section=stacks&mode=edit&i=' .
+            <td><a href="index.php?section=stacks&amp;mode=edit&amp;i=' .
                     htmlspecialchars($number) . '">
                 <img border="0" src="edit.png" title="Edit"></a></td>
-            <td><a href="index.php?section=stacks&mode=delete&i=' .
+            <td><a href="index.php?section=stacks&amp;mode=delete&amp;i=' .
                     htmlspecialchars($number) . '">
                 <img border="0" src="delete.png" title="Delete"></a></td>
             </tr>
@@ -89,7 +89,7 @@ function addRange()
     }
 
     $dynamic = '
-        <form action="index.php?section=stacks&mode=processaddrange"
+        <form action="index.php?section=stacks&amp;mode=processaddrange"
             method="get">
         <fieldset><legend>Add a range</legend>
         <label for="range">Range No.:&nbsp;</label>
@@ -169,7 +169,7 @@ function deleteRange()
     }
 
     $dynamic = '
-        <form action="index.php?section=stacks&mode=processdeleterange"
+        <form action="index.php?section=stacks&amp;mode=processdeleterange"
             method="get">
         <fieldset><legend>Confirm delete</legend>
         Are you sure you want to delete range ' .
@@ -207,7 +207,8 @@ function processDeleteRange()
         )) or die('Invalid query: ' . mysql_error());
 
         $dynamic = '
-            <p>Range ' . $range . ' has been successfully deleted.</p>
+            <p>Range ' . htmlspecialchars($range) . '
+                has been successfully deleted.</p>
         ';
     }
 
@@ -242,7 +243,8 @@ function editRange()
 
     $dynamic = '
         <form action="index.php" method="get">
-        <fieldset><legend>Details for Stack No. $index</legend>
+        <fieldset><legend>Details for Stack No. ' .
+            htmlspecialchars($index) . '</legend>
         <label for="begin">Beginning Call No.:&nbsp;</label>
         <input type="text" size="25" name="begin" id="begin" value="'.
             htmlspecialchars($begin) . '" /><br />

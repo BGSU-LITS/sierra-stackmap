@@ -537,39 +537,39 @@ function changeOpenmenu(id) {
 
     <li id="li_one"><a href="javascript:changeOpenmenu('ul_one');">Manage Stacks</a>
     <ul class="sub" id="ul_one">
-    <li><a href="index.php?section=stacks&mode=view">View/Edit Ranges</a></li>
-    <li><a href="index.php?section=stacks&mode=add">Add a Range</a></li>
+    <li><a href="index.php?section=stacks&amp;mode=view">View/Edit Ranges</a></li>
+    <li><a href="index.php?section=stacks&amp;mode=add">Add a Range</a></li>
     </ul>
     </li>
 
     <li id="li_two"><a href="javascript:changeOpenmenu('ul_two');">Manage Maps</a>
     <ul class="sub" id="ul_two">
-    <li><a href="index.php?section=maps&mode=viewmaps">View Maps</a></li>
-    <li><a href="index.php?section=maps&mode=upload">Upload New Map</a></li>
+    <li><a href="index.php?section=maps&amp;mode=viewmaps">View Maps</a></li>
+    <li><a href="index.php?section=maps&amp;mode=upload">Upload New Map</a></li>
     </ul>
     </li>
 
     <li id="li_three"><a href="javascript:changeOpenmenu('ul_three');">Manage Icons</a>
     <ul class="sub" id="ul_three">
-    <li><a href="index.php?section=icons&mode=iconview">View Icons</a></li>
-    <li><a href="index.php?section=icons&mode=iconupload">Upload New Icon</a></li>
-    <li><a href="index.php?section=icons&mode=iconassign">Assign Icons</a></li>
+    <li><a href="index.php?section=icons&amp;mode=iconview">View Icons</a></li>
+    <li><a href="index.php?section=icons&amp;mode=iconupload">Upload New Icon</a></li>
+    <li><a href="index.php?section=icons&amp;mode=iconassign">Assign Icons</a></li>
     </ul>
     </li>
 
     <li id="li_five"><a href="javascript:changeOpenmenu('ul_five');">Manage Locations</a>
     <ul class="sub" id="ul_five">
-    <li><a href="index.php?section=locations&mode=viewlocations">View/Edit Locations</a></li>
-    <li><a href="index.php?section=locations&mode=createnew">Create New Location</a></li>
+    <li><a href="index.php?section=locations&amp;mode=viewlocations">View/Edit Locations</a></li>
+    <li><a href="index.php?section=locations&amp;mode=createnew">Create New Location</a></li>
     </ul>
     </li>
 
     <li id="li_four"><a href="javascript:changeOpenmenu('ul_four');">Utilities</a>
     <ul class="sub" id="ul_four">
-    <li><a href="index.php?section=utilities&mode=printall">Print All Stacks</a></li>
-    <li><a href="index.php?section=utilities&mode=printpartial">Print Partial Chart</a></li>
-    <li><a href="index.php?section=utilities&mode=searchstacks">Test Stack Map</a></li>
-    <li><a href="index.php?section=utilities&mode=teststandard">Test Standardization</a></li>
+    <li><a href="index.php?section=utilities&amp;mode=printall">Print All Stacks</a></li>
+    <li><a href="index.php?section=utilities&amp;mode=printpartial">Print Partial Chart</a></li>
+    <li><a href="index.php?section=utilities&amp;mode=searchstacks">Test Stack Map</a></li>
+    <li><a href="index.php?section=utilities&amp;mode=teststandard">Test Standardization</a></li>
     </ul>
     </li>
 
