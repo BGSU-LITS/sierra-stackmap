@@ -163,18 +163,18 @@ if ($set_mode == 'location') {
 }
 
 echo <<<END
-<br />
+<br>
 <a href="javascript:window.close()"">Close Window</a>
-<br /><br />
+<br><br>
 <div style="position:absolute;">
 END;
 
 echo '<img src="../maps/' . htmlspecialchars($mapfile);
-echo '" alt="Library stack map" />';
+echo '" alt="Library stack map">';
 
 // Star placement for the computer screen
 echo '<img class="noprint" src="../icons/' . htmlspecialchars($iconfile);
-echo '" alt="Map marker" />';
+echo '" alt="Map marker">';
 
 echo <<<END
 </div>

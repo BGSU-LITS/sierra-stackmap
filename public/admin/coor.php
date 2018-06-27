@@ -20,7 +20,7 @@ if (isset($_GET['location_id'])) {
 
     if (isset($_GET['error'])) {
         die('
-            Some ranges are already assigned to this location.<br />
+            Some ranges are already assigned to this location.<br>
             Please delete all ranges first if you want to assign this location
             to this map.
         ');
@@ -101,12 +101,12 @@ echo '
 if ($set_mode == 'location') {
     echo '
         <input type="hidden" name="location_id" value="' .
-            htmlspecialchars($location_id) . '" />
+            htmlspecialchars($location_id) . '">
     ';
 } elseif ($set_mode == 'range') {
     echo '
         <input type="hidden" name="stackNo" value="'.
-            htmlspecialchars($range) . '" />
+            htmlspecialchars($range) . '">
     ';
 }
 

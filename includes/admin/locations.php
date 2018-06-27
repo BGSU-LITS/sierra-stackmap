@@ -114,7 +114,7 @@ function printLocations()
             $dynamicText .= '
                 <td><a href="#" onclick="window.open(\'coor.php?location_id=' .
                         htmlspecialchars($location_id) . '\')">
-                    <img border="0" src="mapit.gif" title="Map It!" />
+                    <img border="0" src="mapit.gif" title="Map It!">
                     </a></td>
             ';
         } else {
@@ -125,7 +125,7 @@ function printLocations()
                         title="Some ranges are already assigned to this' .
                             ' location. Please delete all ranges first if' .
                             ' you want to assign this location to this map.' .
-                            '" />
+                            '">
                     </a></td>
             ';
         }
@@ -172,13 +172,13 @@ function deleteLocation()
         <fieldset><legend>Confirm delete</legend>
         <strong>Warning:</strong>
         You\'ve selected to delete location: <strong>' .
-        htmlspecialchars($location) . '</strong><br />
+        htmlspecialchars($location) . '</strong><br>
         <strong>ALL RANGES</strong> associated with this location will be
         <strong>REMOVED</strong> from the database!
-        <br /><br />
-        Are you sure you want to proceed?&nbsp;<br />
-        <input type="submit" name="submit" value="Yes" />
-        <input type="submit" name="submit" value="No" />
+        <br><br>
+        Are you sure you want to proceed?&nbsp;<br>
+        <input type="submit" name="submit" value="Yes">
+        <input type="submit" name="submit" value="No">
         </fieldset>
         </form>
     ';
@@ -237,10 +237,10 @@ function editLocation()
             htmlspecialchars($location) . '</legend>
         <label for="location">Location Name:&nbsp;</label>
         <input type="text" size="25" name="location" id="location" value="' .
-            htmlspecialchars($location) . '" /><br />
+            htmlspecialchars($location) . '"><br>
         <label for="link">Link:&nbsp;</label>
         <input type="text" size="25" name="link" id="link" value="' .
-            htmlspecialchars($link) . '" /><br />
+            htmlspecialchars($link) . '"><br>
         <label for="maps">Map:&nbsp;</label>
         <select name="maps" id="maps">
         <option value="None">None</option>
@@ -254,26 +254,28 @@ function editLocation()
             $b['name'] = 'None';
         }
 
+        $selected = '';
+
         if ($name == $b['name']) {
-            $selected = ' selected="selected"';
-        } else {
-            $selected = '';
+            $selected = ' selected';
         }
 
         $dynamic .= '
-            <option value="' . htmlspecialchars($name) . '"' .
-                $selected . '>' . htmlspecialchars($name) . '</option>
+            <option value="' .
+                htmlspecialchars($name) . '"' .
+                htmlspecialchars($selected) . '>' .
+                htmlspecialchars($name) . '</option>
         ';
     }
 
     // Hidden variables that get sent to the next page
     $dynamic .= '
         </select>
-        <input type="hidden" name="section" value="locations" />
-        <input type="hidden" name="mode" value="processedit" />
+        <input type="hidden" name="section" value="locations">
+        <input type="hidden" name="mode" value="processedit">
         <input type="hidden" name="i" value="' .
-            htmlspecialchars($index) . '" />
-        <input type="submit" value="Update" />
+            htmlspecialchars($index) . '">
+        <input type="submit" value="Update">
         </fieldset></form>
     ';
 
@@ -350,9 +352,9 @@ function createLocation()
         <form action="index.php" method="get">
         <fieldset><legend>Create New Location</legend>
         <label for="location">Location Name:&nbsp;</label>
-        <input type="text" size="25" name="locname" id="location" /><br />
+        <input type="text" size="25" name="locname" id="location"><br>
         <label for="link">Link:&nbsp;</label>
-        <input type="text" size="25" name="link" id="link" /><br />
+        <input type="text" size="25" name="link" id="link"><br>
         <label for="maps">Map:&nbsp;</label>
         <select name="maps" id="maps">
         <option value="None">None</option>
@@ -370,9 +372,9 @@ function createLocation()
 
     $dynamic .= '
         </select>
-        <input type="hidden" name="section" value="locations" />
-        <input type="hidden" name="mode" value="processcreate" /><br>
-        <input type="submit" value="Add location" />
+        <input type="hidden" name="section" value="locations">
+        <input type="hidden" name="mode" value="processcreate"><br>
+        <input type="submit" value="Add location">
         </fieldset></form>
     ';
 

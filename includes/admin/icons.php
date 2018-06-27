@@ -76,12 +76,12 @@ function uploadIcon()
         <form enctype="multipart/form-data" method="post"
             action="index.php?section=icons&amp;mode=processupload">
         <fieldset><legend>Upload icon</legend>
-        <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+        <input type="hidden" name="MAX_FILE_SIZE" value="1000000">
         <label for="upload">File:&nbsp;</label>
-        <input type="file" size="25" name="uploadedfile" id="upload" /><br />
+        <input type="file" size="25" name="uploadedfile" id="upload"><br>
         <label for="iconname">Icon name:&nbsp;</label>
-        <input type="text" size="25" name="iconname" id="iconname" /><br />
-        <input type="submit" value="Upload file" />
+        <input type="text" size="25" name="iconname" id="iconname"><br>
+        <input type="submit" value="Upload file">
         </fieldset>
         </form>
     ';
@@ -102,9 +102,9 @@ function deleteIcon()
         <form action="index.php?section=icons&amp;mode=processdelete&amp;i=' .
             htmlspecialchars($index) . '" method="post">
         <fieldset><legend>Confirm delete</legend>
-        Are you sure you want to delete this icon?&nbsp;<br />
-        <input type="submit" name="submit" value="Yes" />
-        <input type="submit" name="submit" value="No" />
+        Are you sure you want to delete this icon?&nbsp;<br>
+        <input type="submit" name="submit" value="Yes">
+        <input type="submit" name="submit" value="No">
         </fieldset>
         </form>
     ';
@@ -152,22 +152,24 @@ function assignIcon()
             $selected = '';
 
             if ($d['icoid'] == $e['iconid']) {
-                $selected = 'selected="selected"';
+                $selected = ' selected';
             }
 
             $dynamicText .= '
-                <option value="' . htmlspecialchars($name) . '"' .
-                    $selected . '>' . htmlspecialchars($name) . '</option>
+                <option value="' .
+                    htmlspecialchars($name) . '"' .
+                    htmlspecialchars($selected) . '>' .
+                    htmlspecialchars($name) . '</option>
             ';
         }
 
         $dynamicText .= '
             </select>
-            <input type="submit" value="Assign" />
-            <input type="hidden" name="section" value="icons" />
-            <input type="hidden" name="mode" value="processassign" />
+            <input type="submit" value="Assign">
+            <input type="hidden" name="section" value="icons">
+            <input type="hidden" name="mode" value="processassign">
             <input type="hidden" name="map" id="hidden" value="' .
-                htmlspecialchars($c['name']) . '" />
+                htmlspecialchars($c['name']) . '">
             </form>
         ';
 

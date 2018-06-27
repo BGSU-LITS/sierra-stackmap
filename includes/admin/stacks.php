@@ -60,7 +60,7 @@ function stackList()
             <td>'. htmlspecialchars($end) . '</td>
             <td><a onclick="window.open(\'coor.php?range=' .
                     htmlspecialchars($number) . '\')" href="#">
-                <img border="0" src="mapit.gif" title="Map It!" /></a></td>
+                <img border="0" src="mapit.gif" title="Map It!"></a></td>
             <td><a href="index.php?section=stacks&amp;mode=edit&amp;i=' .
                     htmlspecialchars($number) . '">
                 <img border="0" src="edit.png" title="Edit"></a></td>
@@ -93,14 +93,14 @@ function addRange()
             method="get">
         <fieldset><legend>Add a range</legend>
         <label for="range">Range No.:&nbsp;</label>
-        <input type="text" size="25" name="range" id="range" value="" /><br />
+        <input type="text" size="25" name="range" id="range" value=""><br>
         <label for="begin">Beginning Call No.:&nbsp;</label>
-        <input type="text" size="25" name="begin" id="begin" value="" /><br />
+        <input type="text" size="25" name="begin" id="begin" value=""><br>
         <label for="end">Ending Call No.:&nbsp;</label>
-        <input type="text" size="25" name="end" id="end" value="" /><br />
-        <input type="hidden" name="section" value="stacks" />
-        <input type="hidden" name="mode" value="processaddrange" />
-        <input type="submit" value="Add range" />
+        <input type="text" size="25" name="end" id="end" value=""><br>
+        <input type="hidden" name="section" value="stacks">
+        <input type="hidden" name="mode" value="processaddrange">
+        <input type="submit" value="Add range">
         </fieldset>
         </form>
     ';
@@ -173,13 +173,13 @@ function deleteRange()
             method="get">
         <fieldset><legend>Confirm delete</legend>
         Are you sure you want to delete range ' .
-            htmlspecialchars($index) . '?&nbsp;<br />
+            htmlspecialchars($index) . '?&nbsp;<br>
         <input type="hidden" name="i" value="' .
-            htmlspecialchars($index) . '" />
-        <input type="submit" name="submit" value="Yes" />
-        <input type="submit" name="submit" value="No" />
-        <input type="hidden" name="section" value="stacks" />
-        <input type="hidden" name="mode" value="processdeleterange" />
+            htmlspecialchars($index) . '">
+        <input type="submit" name="submit" value="Yes">
+        <input type="submit" name="submit" value="No">
+        <input type="hidden" name="section" value="stacks">
+        <input type="hidden" name="mode" value="processdeleterange">
         </fieldset>
         </form>
     ';
@@ -247,15 +247,15 @@ function editRange()
             htmlspecialchars($index) . '</legend>
         <label for="begin">Beginning Call No.:&nbsp;</label>
         <input type="text" size="25" name="begin" id="begin" value="'.
-            htmlspecialchars($begin) . '" /><br />
+            htmlspecialchars($begin) . '"><br>
         <label for="end">Ending Call No.:&nbsp;</label>
         <input type="text" size="25" name="end" id="end" value="'.
-            htmlspecialchars($end) . '" /><br />
-        <input type="hidden" name="section" value="stacks" /><br />
-        <input type="hidden" name="mode" value="processeditrange" />
+            htmlspecialchars($end) . '"><br>
+        <input type="hidden" name="section" value="stacks"><br>
+        <input type="hidden" name="mode" value="processeditrange">
         <input type="hidden" name="i" value="'.
-            htmlspecialchars($index) . '" />
-        <input type="submit" value="Update" />
+            htmlspecialchars($index) . '">
+        <input type="submit" value="Update">
         </fieldset>
         </form>
     ';

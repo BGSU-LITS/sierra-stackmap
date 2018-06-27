@@ -42,7 +42,7 @@ function get_chart()
 function print_date()
 {
     echo '<div style="font-size: 70%;">Updated: ';
-    echo date('m/d/y') . '</div><br />';
+    echo date('m/d/y') . '</div><br>';
 }
 
 // Prints and formats the list of stack ranges

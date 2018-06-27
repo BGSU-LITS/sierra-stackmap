@@ -427,11 +427,11 @@ function printPage($dynamicText, $section, $mode)
 
     // Print header and style information
     print <<<END
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <title>Stack Map Control Panel</title>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style type="text/css">
 *{margin:0;padding:0;}
 #container{width:100%;margin-left:auto;margin-right:auto;}
@@ -530,7 +530,7 @@ function changeOpenmenu(id) {
 
 <div id="container">
     <div id="menu">
-    Current Location:<br />
+    Current Location:<br>
     $current_location
 
     <ul id="main">

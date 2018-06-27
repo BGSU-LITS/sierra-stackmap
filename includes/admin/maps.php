@@ -73,14 +73,14 @@ function uploadMap()
         <form enctype="multipart/form-data" method="post"
             action="index.php?section=maps&amp;mode=processupload">
         <fieldset><legend>Upload map</legend>
-        <input type="hidden" size="25" name="MAX_FILE_SIZE" value="1000000" />
+        <input type="hidden" size="25" name="MAX_FILE_SIZE" value="1000000">
         <label for="upload">File:&nbsp;</label>
-        <input type="file" size="25" name="uploadedfile" id="upload" value="" />
-        <br />
+        <input type="file" size="25" name="uploadedfile" id="upload" value="">
+        <br>
         <label for="mapname">Map name:&nbsp;</label>
-        <input type="text" size="25" name="mapname" id="mapname" value="" />
-        <br />
-        <input type="submit" value="Upload file" />
+        <input type="text" size="25" name="mapname" id="mapname" value="">
+        <br>
+        <input type="submit" value="Upload file">
         </fieldset>
         </form>
     ';
@@ -101,9 +101,9 @@ function deleteMap()
         <form action="index.php?section=maps&amp;mode=processdelete&amp;i=' .
             htmlspecialchars($index) . '" method="post">
         <fieldset><legend>Confirm delete</legend>
-        Are you sure you want to delete this map?&nbsp;<br />
-        <input type="submit" name="submit" value="Yes" />
-        <input type="submit" name="submit" value="No" />
+        Are you sure you want to delete this map?&nbsp;<br>
+        <input type="submit" name="submit" value="Yes">
+        <input type="submit" name="submit" value="No">
         </fieldset>
         </form>
     ';
@@ -132,9 +132,7 @@ function selectLocation()
             action="index.php" method="get">
         <select name="currentmap"
             onchange="document.getElementById(\'currentMap\').submit()">
-        <option value="nomap" selected="selected">
-            Please select a location...
-        </option>
+        <option value="nomap">Please select a location...</option>
     ';
 
     while ($c = mysql_fetch_array($result2)) {
@@ -155,12 +153,12 @@ function selectLocation()
 
     $dynamic .= '
         </select>
-        <input type="hidden" name="section" value="maps" />
-        <input type="hidden" name="mode" value="processcurrentselect" />
+        <input type="hidden" name="section" value="maps">
+        <input type="hidden" name="mode" value="processcurrentselect">
         <input type="hidden" name="map" value="' .
-            htmlspecialchars($c['name']) . '" />
+            htmlspecialchars($c['name']) . '">
         </form>
-        <br />
+        <br>
     ';
 
     return $dynamic;

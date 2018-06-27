@@ -30,7 +30,7 @@ echo '</div>';
 echo '<div style="float:left;width:50%;font-size:225%;text-align:left">';
 echo '<strong>RANGE #' . htmlspecialchars($range_beg);
 echo ' -- RANGE #' . htmlspecialchars($range_end);
-echo '</strong><br /><br />';
+echo '</strong><br><br>';
 echo '</div>';
 
 // Place right arrow
