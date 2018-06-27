@@ -79,7 +79,7 @@ if ($set_mode == "location") {
 
 // Print the coordinate assignment interface.
 // Note that the form posts to x.php.
-echo <<<END
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,10 +88,10 @@ echo <<<END
 </head>
 
 <body>
-$instructions
+<?php echo $instructions; ?>
 <form action="x.php" method="post">
-END;
 
+<?php
 // Print the dynamically retrieved map file
 echo '
     <input type="image" value="Submit" alt="Submit" src="../maps/' .
@@ -109,9 +109,8 @@ if ($set_mode == 'location') {
             htmlspecialchars($range) . '">
     ';
 }
+?>
 
-echo <<<END
 </form>
 </body>
 </html>
-END;

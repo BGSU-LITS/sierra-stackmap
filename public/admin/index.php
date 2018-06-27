@@ -426,83 +426,145 @@ function printPage($dynamicText, $section, $mode)
     $connect = sqlConnect();
 
     // Print header and style information
-    print <<<END
+    ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Stack Map Control Panel</title>
 <style type="text/css">
-*{margin:0;padding:0;}
-#container{width:100%;margin-left:auto;margin-right:auto;}
-#menu{float:left;width:200px;background:none;font:0.8em/1.7 Tahoma, Verdana, sans-serif;margin-right:10px;}
-#text{width:100%-200px;margin-left:200px;font-size:1.0em;background:#ffffff;}
-p{padding-left:35px;font:0.9em/1.7 Tahoma, Verdana, sans-serif;text-align:center-200px;margin-left:auto;margin-right:auto;}
+* {
+    margin: 0; padding: 0;
+}
+#container {
+    width: 100%; margin-left: auto; margin-right: auto;
+}
+#menu {
+    float: left; width: 200px; background: none; margin-right: 10px;
+    font: 0.8em/1.7 Tahoma, Verdana, sans-serif;
+}
+#text {
+    width: 100%-200px; margin-left: 200px; font-size: 1.0em;
+    background: #ffffff;
+}
+p {
+    padding-left: 35px; text-align: center; margin-left: auto;
+    margin-right: auto; font: 0.9em/1.7 Tahoma, Verdana, sans-serif;
+}
 
-#header{width:100%;margin-left:auto;margin-right:auto;text-align:center}
-#logo{height:9.1em;width:50em;}
-#stackList { width:75%;margin-left:auto;margin-right:auto;text-align:center;font:0.9em/1.7 Tahoma, Verdana, sans-serif;border: solid black 1px }
-th { background:#fee3ad;color:#000000;font-weight:normal; padding-left:5px;padding-right:5px;}
+#header {
+    width: 100%; margin-left: auto; margin-right: auto; text-align: center;
+}
+#logo {
+    height: 9.1em; width: 50em;
+}
+#stackList {
+    width: 75%; margin-left: auto; margin-right: auto; text-align: center;
+    font: 0.9em/1.7 Tahoma, Verdana, sans-serif; border: solid black 1px;
+}
+th {
+    background: #fee3ad; color: #000000; font-weight: normal;
+    padding-left: 5px; padding-right: 5px;
+}
 
-form { width:75%;margin-left:auto;margin-right:auto; }
-form#currentMap {margin-left:8px;}
-input {	color:#781351;background:#fee3ad;border:1px solid #781351;text-align:left; }
-fieldset { border: 1px solid #781351;width: 100%;font:0.9em/1.7 Tahoma, Verdana, sans-serif; padding-left:20px; }
-legend { font:0.9em/1.7 Tahoma, Verdana, sans-serif;color: #000000;background: #ffa20c;border: 1px solid #781351;padding: 2px 6px }
-label { height:125px; width: 150px;}
-input[type=submit] { color: #000000;background: #ffa20c;border:1px solid #781351;text-align:left; }
+form {
+    width: 75%; margin-left: auto; margin-right: auto;
+    font: 0.9em/1.7 Tahoma, Verdana, sans-serif;
+}
+form#currentMap {
+    margin-left: 8px;
+}
+input {
+    color: #781351; background: #fee3ad; border: 1px solid #781351;
+    text-align: left;
+}
+fieldset {
+    border: 1px solid #781351; width: 100%; padding-left: 20px;
+    font: 0.9em/1.7 Tahoma, Verdana, sans-serif;
+}
+legend {
+    color: #000000; background: #ffa20c; border: 1px solid #781351;
+    font: 0.9em/1.7 Tahoma, Verdana, sans-serif; padding: 2px 6px;
+}
+label {
+    height: 125px; width: 150px;
+}
+input[type=submit] {
+    color: #000000; background: #ffa20c; border: 1px solid #781351;
+    text-align: left;
+}
 
-a{display:block;text-decoration:none;width:100%;line-height:30px;}
-ul{list-style-type:none;text-align:center;}
-li{display:inline;}
+a {
+    display: block; text-decoration: none; width: 100%; line-height: 30px;
+}
+ul {
+    list-style-type: none; text-align: center;
+}
+li {
+    display: inline;
+}
 
-#main li a:link,ul#main li a:visited {background:#ffa20c;color:#000000;border-top:2px solid #fff;}
-#main li a:link:hover,ul#main li a:visited:hover {background:#011c52;color:#ffffff}
+#main li a:link, ul#main li a:visited {
+    background: #ffa20c; color: #000000; border-top: 2px solid #fff;
+}
+#main li a:link:hover, ul#main li a:visited:hover {
+    background: #011c52; color: #ffffff;
+}
 
-ul#main li ul.sub li a:link,ul#main ul.sub li a:visited {border-top:2px solid #fff;background:#fee3ad;color:#000000;}
-ul#main li ul.sub li a:link:hover,ul#main ul.sub li a:visited:hover {background:#005df3;color:#ffffff;}
+ul#main li ul.sub li a:link, ul#main ul.sub li a:visited {
+    border-top: 2px solid #fff; background: #fee3ad; color: #000000;
+}
+ul#main li ul.sub li a:link:hover, ul#main ul.sub li a:visited:hover {
+    background: #005df3; color: #ffffff;
+}
+<?php
+// Depending on the section, expand a given menu section
+if ($section == 'stacks') {
+    echo '
+        #ul_one {display: block}
+        #ul_two {display: none}
+        #ul_three {display: none}
+        #ul_five {display: none}
+        #ul_four {display: none}
+    ';
+} elseif ($section == 'maps' && $mode != 'processcurrentselect') {
+    echo '
+        #ul_one {display: none}
+        #ul_two {display: block}
+        #ul_three {display: none}
+        #ul_five {display: none}
+        #ul_four {display: none}
+    ';
+} elseif ($section == 'icons') {
+    echo '
+        #ul_one {display: none}
+        #ul_two {display: none}
+        #ul_three {display: block}
+        #ul_five {display: none}
+        #ul_four {display: none}
+    ';
+} elseif ($section == 'locations') {
+    echo '
+        #ul_one {display: none}
+        #ul_two {display: none}
+        #ul_three {display: none}
+        #ul_five {display: block}
+        #ul_four {display: none}
+    ';
+} elseif ($section == 'utilities') {
+    echo '
+        #ul_one {display: none}
+        #ul_two {display: none}
+        #ul_three {display: none}
+        #ul_five {display: none}
+        #ul_four {display: block}
+    ';
+} else {
+    echo '#ul_one, #ul_two, #ul_three, #ul_five, #ul_four {display: none}';
+}
 
-END;
-
-    // Depending on the section, expand a given menu section
-    if ($section == 'stacks') {
-        echo '#ul_one {display:block;}';
-        echo '#ul_two {display:none;}';
-        echo '#ul_three {display:none;}';
-        echo '#ul_five {display:none;}';
-        echo '#ul_four {display:none;}';
-    } elseif ($section == 'maps' && $mode != 'processcurrentselect') {
-        echo '#ul_one {display:none;}';
-        echo '#ul_two {display:block;}';
-        echo '#ul_three {display:none;}';
-        echo '#ul_five {display:none;}';
-        echo '#ul_four {display:none;}';
-    } elseif ($section == 'icons') {
-        echo '#ul_one {display:none;}';
-        echo '#ul_two {display:none;}';
-        echo '#ul_three {display:block;}';
-        echo '#ul_five {display:none;}';
-        echo '#ul_four {display:none;}';
-    } elseif ($section == 'locations') {
-        echo '#ul_one {display:none;}';
-        echo '#ul_two {display:none;}';
-        echo '#ul_three {display:none;}';
-        echo '#ul_five {display:block;}';
-        echo '#ul_four {display:none;}';
-    } elseif ($section == 'utilities') {
-        echo '#ul_one {display:none;}';
-        echo '#ul_two {display:none;}';
-        echo '#ul_three {display:none;}';
-        echo '#ul_five {display:none;}';
-        echo '#ul_four {display:block;}';
-    } else {
-        echo '#ul_one, #ul_two, #ul_three, #ul_five, #ul_four {display:none;}';
-    }
-
-    $current_location = selectLocation();
-
-    // Print the menu
-    print <<<END
+$current_location = selectLocation();
+?>
 </style>
 <script type="text/javascript">
 function changeOpenmenu(id) {
@@ -523,66 +585,73 @@ function changeOpenmenu(id) {
 </script>
 </head>
 <body>
-
 <div id="header">
-    <a href="index.php"><img src="header.jpg" border="0" alt="Interactive Stack Map" id="logo"></a>
+    <a href="index.php"><img id="logo" src="header.jpg" border="0"
+        alt="Interactive Stack Map"></a>
 </div>
-
 <div id="container">
-    <div id="menu">
-    Current Location:<br>
-    $current_location
-
-    <ul id="main">
-
-    <li id="li_one"><a href="javascript:changeOpenmenu('ul_one');">Manage Stacks</a>
-    <ul class="sub" id="ul_one">
-    <li><a href="index.php?section=stacks&amp;mode=view">View/Edit Ranges</a></li>
-    <li><a href="index.php?section=stacks&amp;mode=add">Add a Range</a></li>
-    </ul>
-    </li>
-
-    <li id="li_two"><a href="javascript:changeOpenmenu('ul_two');">Manage Maps</a>
-    <ul class="sub" id="ul_two">
-    <li><a href="index.php?section=maps&amp;mode=viewmaps">View Maps</a></li>
-    <li><a href="index.php?section=maps&amp;mode=upload">Upload New Map</a></li>
-    </ul>
-    </li>
-
-    <li id="li_three"><a href="javascript:changeOpenmenu('ul_three');">Manage Icons</a>
-    <ul class="sub" id="ul_three">
-    <li><a href="index.php?section=icons&amp;mode=iconview">View Icons</a></li>
-    <li><a href="index.php?section=icons&amp;mode=iconupload">Upload New Icon</a></li>
-    <li><a href="index.php?section=icons&amp;mode=iconassign">Assign Icons</a></li>
-    </ul>
-    </li>
-
-    <li id="li_five"><a href="javascript:changeOpenmenu('ul_five');">Manage Locations</a>
-    <ul class="sub" id="ul_five">
-    <li><a href="index.php?section=locations&amp;mode=viewlocations">View/Edit Locations</a></li>
-    <li><a href="index.php?section=locations&amp;mode=createnew">Create New Location</a></li>
-    </ul>
-    </li>
-
-    <li id="li_four"><a href="javascript:changeOpenmenu('ul_four');">Utilities</a>
-    <ul class="sub" id="ul_four">
-    <li><a href="index.php?section=utilities&amp;mode=printall">Print All Stacks</a></li>
-    <li><a href="index.php?section=utilities&amp;mode=printpartial">Print Partial Chart</a></li>
-    <li><a href="index.php?section=utilities&amp;mode=searchstacks">Test Stack Map</a></li>
-    <li><a href="index.php?section=utilities&amp;mode=teststandard">Test Standardization</a></li>
-    </ul>
-    </li>
-
-    </ul>
-    </div>
-
-    <div id="text">
-    $dynamicText
-    </div>
+<div id="menu">
+Current Location:<br>
+<?php echo $current_location; ?>
+<ul id="main">
+<li id="li_one">
+<a href="javascript:changeOpenmenu('ul_one');">Manage Stacks</a>
+<ul class="sub" id="ul_one">
+<li><a href="index.php?section=stacks&amp;mode=view">
+    View/Edit Ranges</a></li>
+<li><a href="index.php?section=stacks&amp;mode=add">
+    Add a Range</a></li>
+</ul>
+</li>
+<li id="li_two">
+<a href="javascript:changeOpenmenu('ul_two');">Manage Maps</a>
+<ul class="sub" id="ul_two">
+<li><a href="index.php?section=maps&amp;mode=viewmaps">
+    View Maps</a></li>
+<li><a href="index.php?section=maps&amp;mode=upload">
+    Upload New Map</a></li>
+</ul>
+</li>
+<li id="li_three">
+<a href="javascript:changeOpenmenu('ul_three');">Manage Icons</a>
+<ul class="sub" id="ul_three">
+<li><a href="index.php?section=icons&amp;mode=iconview">
+    View Icons</a></li>
+<li><a href="index.php?section=icons&amp;mode=iconupload">
+    Upload New Icon</a></li>
+<li><a href="index.php?section=icons&amp;mode=iconassign">
+    Assign Icons</a></li>
+</ul>
+</li>
+<li id="li_five">
+<a href="javascript:changeOpenmenu('ul_five');">Manage Locations</a>
+<ul class="sub" id="ul_five">
+<li><a href="index.php?section=locations&amp;mode=viewlocations">
+    View/Edit Locations</a></li>
+<li><a href="index.php?section=locations&amp;mode=createnew">
+    Create New Location</a></li>
+</ul>
+</li>
+<li id="li_four">
+<a href="javascript:changeOpenmenu('ul_four');">Utilities</a>
+<ul class="sub" id="ul_four">
+<li><a href="index.php?section=utilities&amp;mode=printall">
+    Print All Stacks</a></li>
+<li><a href="index.php?section=utilities&amp;mode=printpartial">
+    Print Partial Chart</a></li>
+<li><a href="index.php?section=utilities&amp;mode=searchstacks">
+    Test Stack Map</a></li>
+<li><a href="index.php?section=utilities&amp;mode=teststandard">
+    Test Standardization</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="text">
+<?php echo $dynamicText; ?>
+</div>
 </div>
 </body>
 </html>
-END;
-
-    // End of menu
+    <?php
 }

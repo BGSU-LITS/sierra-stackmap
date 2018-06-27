@@ -139,9 +139,12 @@ function assignIcon()
 
         // ... print the map's name and a dropdown box.
         $dynamicText .= '
-            <p>' . htmlspecialchars($c['name']) . '</p>
             <form action="index.php" method="get">
-            <select name="icons">
+            <label for="' .
+                htmlspecialchars($c['name']) . '">' .
+                htmlspecialchars($c['name']) . '</label><br>
+            <select name="icons" id="' .
+                htmlspecialchars($c['name']) . '">
         ';
 
         // For each icon that exists... add a dropdown box item.
@@ -169,7 +172,7 @@ function assignIcon()
             <input type="hidden" name="section" value="icons">
             <input type="hidden" name="mode" value="processassign">
             <input type="hidden" name="map" id="hidden" value="' .
-                htmlspecialchars($c['name']) . '">
+                htmlspecialchars($c['name']) . '"><br><br>
             </form>
         ';
 

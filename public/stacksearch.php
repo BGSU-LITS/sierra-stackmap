@@ -104,18 +104,22 @@ if ($row4 = mysqli_fetch_array($sql4)) {
 while ($row = mysqli_fetch_array($sql)) {
     // This functionality may eventually be removed -- for now it's there to
     // reassure the user that the correct number was queried.
-    echo '<br>&nbsp;&nbsp;Your selected call number ';
-    echo htmlspecialchars($_GET['callnumber']);
-    echo ' was found in <strong>range ';
-    echo htmlspecialchars($row['range_number']) . '</strong> of ';
-    echo htmlspecialchars($location) . '.<br>';
+    echo '
+        <br>&nbsp;&nbsp;Your selected call number ' .
+        htmlspecialchars($_GET['callnumber']) . '
+        was found in <strong>range ' .
+        htmlspecialchars($row['range_number']) . '</strong> of ' .
+        htmlspecialchars($location) . '.<br>
+    ';
 
     $index = $row['range_number'];
 
-    echo '&nbsp;&nbsp;Placing a marker <img src="./icons/';
-    echo htmlspecialchars($iconfile) . '" alt="Map marker"';
-    echo ' style="vertical-align:middle"> for range ';
-    echo htmlspecialchars($index) . '...<br>';
+    echo '
+        &nbsp;&nbsp;Placing a marker
+        <img src="./icons/' . htmlspecialchars($iconfile) . '" alt="Map marker"
+            style="vertical-align:middle">
+        for range ' . htmlspecialchars($index) . '...<br>
+    ';
 }
 
 // Query the database again to find the x and y coordinates associated with
@@ -138,26 +142,30 @@ if (isset($index)) {
     $img_x_coord -= 10;
 
     // Begin drawing map
-    echo '<div style="position:absolute"><img src="./maps/';
-    echo htmlspecialchars($mapfile) . '" alt="Library stack map">';
+    echo '
+        <div style="position:absolute">
+        <img src="./maps/' . htmlspecialchars($mapfile) . '"
+            alt="Library stack map">
+    ';
 
     // Star placement
-    echo '<img style="position:absolute;width:20px;height:20px;top:';
-    echo htmlspecialchars($img_y_coord) . 'px;left:';
-    echo htmlspecialchars($img_x_coord) . '" src="./icons/';
-    echo htmlspecialchars($iconfile) . '" alt="Map marker"></div>';
+    echo '
+        <img style="position:absolute;width:20px;height:20px;top:' .
+        htmlspecialchars($img_y_coord) . 'px;left:' .
+        htmlspecialchars($img_x_coord) . '" src="./icons/' .
+        htmlspecialchars($iconfile) . '" alt="Map marker">
+        </div>
+    ';
 } else {
     // $index was never set, meaning the call number wasn't found in the db
     echo 'Invalid call number. Please try again...<br>';
 }
 ?>
-
 <script src="https://www.googletagmanager.com/gtag/js?id=UA-3319349-2"
     async></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-
 gtag('config', 'UA-3319349-2');
 </script>

@@ -132,52 +132,53 @@ $img_x_coord -= 10;
 
 // Display feedback to the user including the map with a marker where
 // he/she clicked
-
-echo <<<END
+?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Stack Map</title>
 <style media="screen">
-END;
-
-print '.noprint{position:absolute;top:';
-print htmlspecialchars($img_y_coord) . 'px;left:';
-print htmlspecialchars($img_x_coord) . 'px}';
-
-echo <<<END
+<?php
+echo '
+    .noprint{position:absolute;top:' .
+        htmlspecialchars($img_y_coord) . 'px;left:' .
+        htmlspecialchars($img_x_coord) . 'px}
+';
+?>
 .noscreen{display:none;}
 </style>
 </head>
-
 <body>
-END;
-
+<?php
 if ($set_mode == 'location') {
-    echo '<strong>Entry successfully added for location ';
-    echo htmlspecialchars($location) . '!</strong>';
+    echo '
+        <strong>Entry successfully added for location ' .
+        htmlspecialchars($location) . '!</strong>
+    ';
 } elseif ($set_mode == 'range') {
-    echo '<strong>Entry successfully added for range ';
-    echo htmlspecialchars($stackNo) . '!</strong>';
+    echo '
+        <strong>Entry successfully added for range ' .
+        htmlspecialchars($stackNo) . '!</strong>
+    ';
 }
-
-echo <<<END
+?>
 <br>
-<a href="javascript:window.close()"">Close Window</a>
+<a href="javascript:window.close()">Close Window</a>
 <br><br>
 <div style="position:absolute;">
-END;
-
-echo '<img src="../maps/' . htmlspecialchars($mapfile);
-echo '" alt="Library stack map">';
+<?php
+echo '
+    <img alt="Library stack map" src="../maps/' .
+        htmlspecialchars($mapfile) . '">
+';
 
 // Star placement for the computer screen
-echo '<img class="noprint" src="../icons/' . htmlspecialchars($iconfile);
-echo '" alt="Map marker">';
-
-echo <<<END
+echo '
+    <img alt="Map marker" class="noprint"
+        src="../icons/' . htmlspecialchars($iconfile) . '">
+';
+?>
 </div>
 </body>
 </html>
-END;

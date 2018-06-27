@@ -29,20 +29,20 @@ function printPartialStacks()
         return errorNoMapSelected();
     }
 
-    $text = <<<END
-<p>Use this form to print out only a range of stack call numbers. You can print
-    out the chart that it generates to put on the end of the stacks.</p>
-<p>Enter your desired <strong>range number</strong> of stacks below:</p>
-
-<form action="results.php" method="post">
-From:
-<input type="text" name="callbeg">
-
-To:
-<input type="text" name="callend">
-<input type="submit">
-</form>
-END;
+    $text = '
+        <p>Use this form to print out only a range of stack call numbers. You
+            can print out the chart that it generates to put on the end of the
+            stacks.</p>
+        <p>Enter your desired <strong>range number</strong> of stacks
+            below:</p>
+        <form action="results.php" method="post">
+        <label for="callbeg">From:</label>
+        <input type="text" id="callbeg" name="callbeg">
+        <label for="callend">To:</label>
+        <input type="text" id="callend" name="callend">
+        <input type="submit">
+        </form>
+    ';
 
     return $text;
 }
@@ -57,29 +57,30 @@ function searchStacks()
         return errorNoMapSelected();
     }
 
-    $text = <<<END
-<head>
-<script>
-function popup()
-{
-    window.open(
-        '',
-        'mapit',
-        'width=800,height=650,menubar=1,resizable=1,scrollbars=1'
-    );
+    $text = '
+        <head>
+        <script>
+        function popup()
+        {
+            window.open(
+                "",
+                "mapit",
+                "width=800,height=650,menubar=1,resizable=1,scrollbars=1"
+            );
 
-    return true;
-}
-</script>
-<title>BGSU Libraries Call Number Stack Search</title>
-</head>
-<body>
-<form action="../stacksearch.php" method="GET" target="mapit" onsubmit="return popup()">
-<p><label for="callnumber">Enter call number:</label>
-<input type="text" id="callnumber" name="callnumber">
-<input type="submit"></p>
-</form>
-END;
+            return true;
+        }
+        </script>
+        <title>BGSU Libraries Call Number Stack Search</title>
+        </head>
+        <body>
+        <form action="../stacksearch.php" method="GET" target="mapit"
+            onsubmit="return popup()">
+        <p><label for="callnumber">Enter call number:</label>
+        <input type="text" id="callnumber" name="callnumber">
+        <input type="submit"></p>
+        </form>
+    ';
 
     return $text;
 }

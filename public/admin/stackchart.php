@@ -41,8 +41,10 @@ function get_chart()
 // Add a timestamp so users know how recently the list was generated
 function print_date()
 {
-    echo '<div style="font-size: 70%;">Updated: ';
-    echo date('m/d/y') . '</div><br>';
+    echo '
+        <div style="font-size: 70%;">Updated: ' .
+        date('m/d/y') . '</div><br>
+    ';
 }
 
 // Prints and formats the list of stack ranges
@@ -51,46 +53,48 @@ function print_table($query_results)
     $record_number = 0;
     $half = ceil(mysqli_num_rows($query_results) / 2);
 
-    echo <<<END
-<div style="font-family: verdana,helvetica,arial,sans-serif">
-<table border="1" style="float:left;width:45%;font-size:70%">
-<tr>
-<th align="left">Beginning Call #</th>
-<th align="left">Ending Call #</th>
-<th align="left">Range #</th>
-</tr>
-END;
+    echo '
+        <div style="font-family: verdana,helvetica,arial,sans-serif">
+        <table border="1" style="float:left;width:45%;font-size:70%">
+        <tr>
+        <th align="left">Beginning Call #</th>
+        <th align="left">Ending Call #</th>
+        <th align="left">Range #</th>
+        </tr>
+    ';
 
     // For each stack record found...
     while ($row = mysqli_fetch_array($query_results)) {
         if ($record_number == $half) {
-            echo <<<END
-</table>
-<table border="1" style="float:left;width:45%;margin-left:5%;font-size:70%">
-<tr>
-<th align="left">Beginning Call #</th>
-<th align="left">Ending Call #</th>
-<th align="left">Range #</th>
-</tr>
-
-END;
+            echo '
+                </table>
+                <table border="1"
+                    style="float:left;width:45%;margin-left:5%;font-size:70%">
+                <tr>
+                <th align="left">Beginning Call #</th>
+                <th align="left">Ending Call #</th>
+                <th align="left">Range #</th>
+                </tr>
+            ';
         }
 
         $beg_callno = $row['beginning_call_number'];
         $end_callno = $row['ending_call_number'];
         $range_no = $row['range_number'];
 
-        echo '<tr>';
-        echo '<td>' . htmlspecialchars($beg_callno) . '</td>';
-        echo '<td>' . htmlspecialchars($end_callno) . '</td>';
-        echo '<td><strong>' . htmlspecialchars($range_no) . '</strong></td>';
-        echo '</tr>';
+        echo '
+            <tr>
+            <td>' . htmlspecialchars($beg_callno) . '</td>
+            <td>' . htmlspecialchars($end_callno) . '</td>
+            <td><strong>' . htmlspecialchars($range_no) . '</strong></td>
+            </tr>
+        ';
 
         $record_number++;
     }
 
-    echo <<<END
-</table>
-</div>
-END;
+    echo '
+        </table>
+        </div>
+    ';
 }

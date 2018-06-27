@@ -22,21 +22,27 @@ if (isset($_POST['callend'])) {
 }
 
 // Place left arrow
-echo '<div style="float: left; width: 25%">';
-echo '<img src="arrowleft.gif">';
-echo '</div>';
+echo '
+    <div style="float: left; width: 25%">
+    <img src="arrowleft.gif">
+    </div>
+';
 
 // Print out the beginning/ending ranges that were searched for
-echo '<div style="float:left;width:50%;font-size:225%;text-align:left">';
-echo '<strong>RANGE #' . htmlspecialchars($range_beg);
-echo ' -- RANGE #' . htmlspecialchars($range_end);
-echo '</strong><br><br>';
-echo '</div>';
+echo '
+    <div style="float:left;width:50%;font-size:225%;text-align:left">
+    <strong>RANGE #' .
+    htmlspecialchars($range_beg) . ' -- RANGE #' .
+    htmlspecialchars($range_end) . '</strong><br><br>
+    </div>
+';
 
 // Place right arrow
-echo '<div style="float: left; width: 25%">';
-echo '<img src="arrowright.gif">';
-echo '</div>';
+echo '
+    <div style="float: left; width: 25%">
+    <img src="arrowright.gif">
+    </div>
+';
 
 $query_results = get_chart($range_beg, $range_end);
 
@@ -71,10 +77,11 @@ function get_chart($range_beg, $range_end)
 // table for display on the outside of the library stacks.
 function print_table($query_results)
 {
-    echo <<<END
-<div style="font-family: verdana,helvetica,arial,sans-serif">
-<table border="1" style="float:left;width:70%;font-size:70%;margin:0 auto">
-END;
+    echo '
+        <div style="font-family: verdana,helvetica,arial,sans-serif">
+        <table style="float:left;width:70%;font-size:70%;margin:0 auto"
+            border="1">
+    ';
 
     // For each stack record found...
     while ($row = mysqli_fetch_array($query_results)) {
@@ -82,15 +89,17 @@ END;
         $end_callno = $row['ending_call_number'];
         $range_no = $row['range_number'];
 
-        echo '<tr>';
-        echo '<td><strong>' . htmlspecialchars($range_no) . '</strong></td>';
-        echo '<td>' . htmlspecialchars($beg_callno) . '</td>';
-        echo '<td>' . htmlspecialchars($end_callno) . '</td>';
-        echo '</tr>';
+        echo '
+            <tr>
+            <td><strong>' . htmlspecialchars($range_no) . '</strong></td>
+            <td>' . htmlspecialchars($beg_callno) . '</td>
+            <td>' . htmlspecialchars($end_callno) . '</td>
+            </tr>
+        ';
     }
 
-    echo <<<END
-</table>
-</div>
-END;
+    echo '
+        </table>
+        </div>
+    ';
 }
