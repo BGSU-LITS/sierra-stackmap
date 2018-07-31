@@ -27,7 +27,7 @@ jQuery('.bibItems tr.bibItemsEntry')
     } else {
         // If the item has a call number, append the Map It button.
         cell['Call Number'].prepend(
-            '<a href="http://ul.bgsu.edu/stackmap/search.php?' +
+            '<a href="http://lib.bgsu.edu/catalog/stackmap/search.php?' +
                 jQuery.param({
                     'loc_arr': text['Location'],
                     'call_arr': text['Call Number']
