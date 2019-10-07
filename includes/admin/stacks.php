@@ -58,8 +58,12 @@ function stackList()
         $dynamicText .= '
             <tr style="background:#' . htmlspecialchars($color) . '">
             <td>'. htmlspecialchars($number) . '</td>
-            <td>'. htmlspecialchars($begin) . '</td>
-            <td>'. htmlspecialchars($end) . '</td>
+            <td><a href="../stacksearch.php?callnumber='.
+                    urlencode($begin === '*' ? 'A' : $begin) . '">' .
+                    htmlspecialchars($begin) . '</a></td>
+            <td><a href="../stacksearch.php?callnumber='.
+                    urlencode($end === '*' ? 'A' : $end) . '">' .
+                    htmlspecialchars($end) . '</a></td>
             <td><a onclick="window.open(\'coor.php?range=' .
                     htmlspecialchars($number) . '\')" href="#">
                 <img border="0" src="img/mapit.gif" title="Map It!"></a></td>
