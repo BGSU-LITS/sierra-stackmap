@@ -59,10 +59,12 @@ function stackList()
             <tr style="background:#' . htmlspecialchars($color) . '">
             <td>'. htmlspecialchars($number) . '</td>
             <td><a href="../stacksearch.php?callnumber='.
-                    urlencode($begin === '*' ? 'A' : $begin) . '">' .
+                    urlencode($begin === '*' ? 'A' : $begin) .
+                    '&amp;location_id=' . $location_id . '">' .
                     htmlspecialchars($begin) . '</a></td>
             <td><a href="../stacksearch.php?callnumber='.
-                    urlencode($end === '*' ? 'A' : $end) . '">' .
+                    urlencode($end === '*' ? 'A' : $end) .
+                    '&amp;location_id=' . $location_id . '">' .
                     htmlspecialchars($end) . '</a></td>
             <td><a onclick="window.open(\'coor.php?range=' .
                     htmlspecialchars($number) . '\')" href="#">
