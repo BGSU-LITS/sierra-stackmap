@@ -161,11 +161,9 @@ if (isset($index)) {
     echo 'Invalid call number. Please try again...<br>';
 }
 ?>
-<script src="https://www.googletagmanager.com/gtag/js?id=UA-3319349-2"
-    async></script>
 <script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-3319349-2');
+var _mtm = window._mtm = window._mtm || [];
+_mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+g.async=true; g.src='https://lib.bgsu.edu/matomo/js/container_eJ0lacey.js'; s.parentNode.insertBefore(g,s);
 </script>
