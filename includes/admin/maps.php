@@ -159,8 +159,6 @@ function selectLocation()
         </select>
         <input type="hidden" name="section" value="maps">
         <input type="hidden" name="mode" value="processcurrentselect">
-        <input type="hidden" name="map" value="' .
-            htmlspecialchars($c['name']) . '">
         </form>
         <br>
     ';

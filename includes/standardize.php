@@ -242,7 +242,7 @@ function code_extract($callnum)
     $callnum = str_replace($special, $special_num, $callnum);
 
     // A special ID number
-    if (is_digit($callnum[0])) {
+    if (strlen($callnum) > 0 && is_digit($callnum[0])) {
         $result[0] .= $callnum[0];
     }
 
